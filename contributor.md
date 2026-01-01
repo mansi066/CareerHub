@@ -1,4 +1,4 @@
-````md
+
 # 🤝 Contribution Guidelines — ECWOC
 
 We welcome contributions from everyone! To maintain code quality and smooth collaboration, please follow the guidelines below before contributing.
@@ -17,7 +17,7 @@ We welcome contributions from everyone! To maintain code quality and smooth coll
 - Always create a **new local branch** from `main`:
   ```bash
   git checkout -b feature/your-feature-name
-````
+
 
 * Use meaningful branch names such as:
 
@@ -52,7 +52,7 @@ We welcome contributions from everyone! To maintain code quality and smooth coll
   * What changes were made
   * The issue number it resolves (e.g., `Fixes #12`)
   * Screenshots or screenrecording
-  * star the repo for further updates
+    
 
 ---
 
@@ -61,6 +61,7 @@ We welcome contributions from everyone! To maintain code quality and smooth coll
 * ❌ Do **not** merge directly into `main`
 * ❌ Do **not** push commits to `main`
 * ✅ Wait for **maintainer review and approval** before merging
+* star the repo for further updates
 
 ---
 
