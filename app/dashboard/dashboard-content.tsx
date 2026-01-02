@@ -1,9 +1,19 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
+import { LogOut, Search } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import JobSearchFilter from "@/components/JobSearchFilter"
-// Assuming you have a JobCard or similar component, keep your existing imports
-import { Card } from "@/components/ui/card" 
+
+interface User {
+  email: string;
+  fullName?: string;
+  loggedIn: boolean;
+}
+
+// Keep your const allJobs array below this...
 
 // This is where your jobs come from - if they are fetched from an API, 
 // make sure to use that data instead of this mock array.
