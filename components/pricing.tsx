@@ -58,14 +58,18 @@ export default function Pricing() {
   ]
 
   return (
-    <section id="pricing" className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-card">
+    <section
+      id="pricing"
+      className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-card"
+    >
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4 text-pretty">
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
             Plans for every career stage
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Choose the plan that fits your goals. All paid plans include a 7-day free trial.
+            Choose the plan that fits your goals. All paid plans include a 7-day
+            free trial.
           </p>
         </div>
 
@@ -73,15 +77,15 @@ export default function Pricing() {
           {plans.map((plan) => (
             <Card
               key={plan.id}
-              className={`relative p-8 flex flex-col spotlight-card hover-card scale-in ${
+              className={`relative overflow-visible p-8 pt-12 flex flex-col spotlight-card hover-card scale-in ${
                 plan.popular
                   ? "bg-primary text-primary-foreground border-primary md:scale-105 shadow-2xl"
                   : "bg-background border-border"
               }`}
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-0 right-0 flex justify-center">
-                  <span className="bg-accent text-black px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
+                <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-10">
+                  <span className="bg-accent text-black dark:text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
                     Most Popular
                   </span>
                 </div>
@@ -89,11 +93,21 @@ export default function Pricing() {
 
               <div className="mb-8">
                 <h3
-                  className={`text-2xl font-bold mb-2 ${plan.popular ? "text-primary-foreground" : "text-foreground"}`}
+                  className={`text-2xl font-bold mb-2 ${
+                    plan.popular
+                      ? "text-primary-foreground"
+                      : "text-foreground"
+                  }`}
                 >
                   {plan.name}
                 </h3>
-                <p className={plan.popular ? "text-primary-foreground/80" : "text-muted-foreground"}>
+                <p
+                  className={
+                    plan.popular
+                      ? "text-primary-foreground/80"
+                      : "text-muted-foreground"
+                  }
+                >
                   {plan.description}
                 </p>
               </div>
@@ -101,7 +115,16 @@ export default function Pricing() {
               <div className="mb-8">
                 <span className="text-4xl font-bold">{plan.price}</span>
                 {plan.price !== "Free" && (
-                  <span className={plan.popular ? "text-primary-foreground/80" : "text-muted-foreground"}>/month</span>
+                  <span
+                    className={
+                      plan.popular
+                        ? "text-primary-foreground/80"
+                        : "text-muted-foreground"
+                    }
+                  >
+                    {" "}
+                    /month
+                  </span>
                 )}
               </div>
 
@@ -119,7 +142,15 @@ export default function Pricing() {
                 {plan.features.map((feature, idx) => (
                   <div key={idx} className="flex items-center gap-3">
                     <Check className="w-5 h-5 flex-shrink-0" />
-                    <span className={plan.popular ? "text-primary-foreground/90" : "text-foreground"}>{feature}</span>
+                    <span
+                      className={
+                        plan.popular
+                          ? "text-primary-foreground/90"
+                          : "text-foreground"
+                      }
+                    >
+                      {feature}
+                    </span>
                   </div>
                 ))}
               </div>

@@ -147,10 +147,23 @@ Contributions are welcome!
 
 ---
 
+
+## ⭐ Support the Career Hub
+
+If you find Career Hub helpful and valuable, please consider starring this repository 🌟
+Your support motivates us to keep improving the platform and adding more features for students and professionals.
+
+
+
+
+
+
+
 ## 📄 License
 
 This project is licensed under the **MIT License**.
 
 ---
+
 
 ### 🌟 CareerHub — Find the right opportunity, faster.
