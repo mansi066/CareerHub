@@ -219,3 +219,11 @@
     @apply hover:-translate-y-2 hover:scale-105;
   }
 }
+
+.footer-link {
+  @apply text-sm text-muted-foreground hover:text-foreground transition-colors;
+}
+
+.social-icon {
+  @apply text-muted-foreground hover:text-foreground transition-colors;
+}
