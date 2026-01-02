@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
-import { LogOut, Search, Briefcase, GraduationCap, Users, User, Settings } from "lucide-react"
+import { LogOut, Search, Briefcase, GraduationCap, Users, User, Settings, Home } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
@@ -74,16 +74,32 @@ export default function DashboardContent() {
           </Link>
 
           <div className="flex items-center gap-4">
+            <Link href="/">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="rounded-full hover:bg-foreground/10 relative group"
+                aria-label="Go to home"
+              >
+                <Home className="w-5 h-5" />
+                <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-foreground text-background text-xs px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                  Go to Home
+                </span>
+              </Button>
+            </Link>
             <div className="relative" ref={dropdownRef}>
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className="rounded-full hover:bg-foreground/10 relative"
+                className="rounded-full hover:bg-foreground/10 relative group"
                 aria-haspopup="true"
                 aria-expanded={showDropdown}
                 onClick={() => setShowDropdown(!showDropdown)}
               >
-                <User className="w-10 h-10" />
+                <User className="w-6 h-6" />
+                <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-foreground text-background text-xs px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                  Edit Profile
+                </span>
               </Button>
               {showDropdown && (
                 <div className="absolute right-0 mt-2 w-48 bg-background border border-foreground/10 rounded-lg shadow-lg py-2 z-50">

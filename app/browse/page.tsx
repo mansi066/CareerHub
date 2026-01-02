@@ -21,72 +21,36 @@ interface Opportunity {
   tags: string[];
 }
 
-const mockOpportunities: Opportunity[] = [
-  {
-    id: 1,
-    title: "Frontend Developer",
-    company: "TechCorp",
-    type: "job",
-    location: "San Francisco, CA",
-    salary: "$90,000 - $120,000",
-    description: "We're looking for a skilled frontend developer with React experience to join our team.",
-    tags: ["React", "TypeScript", "CSS"],
-  },
-  {
-    id: 2,
-    title: "Summer Internship Program",
-    company: "InnovateLab",
-    type: "internship",
-    location: "New York, NY",
-    description: "12-week summer internship for computer science students to gain real-world experience.",
-    tags: ["Summer", "Full-time", "Mentorship"],
-  },
-  {
-    id: 3,
-    title: "Computer Science Scholarship",
-    company: "EduFoundation",
-    type: "scholarship",
-    location: "Remote",
-    deadline: "2023-12-31",
-    description: "Full scholarship for underrepresented students pursuing computer science degrees.",
-    tags: ["Full-tuition", "Mentorship", "Career Support"],
-  },
-  {
-    id: 4,
-    title: "Backend Engineer",
-    company: "DataSystems",
-    type: "job",
-    location: "Austin, TX",
-    salary: "$100,000 - $140,000",
-    description: "Join our backend team to build scalable systems for our enterprise clients.",
-    tags: ["Node.js", "Python", "AWS"],
-  },
-  {
-    id: 5,
-    title: "Research Internship",
-    company: "SciTech Institute",
-    type: "internship",
-    location: "Boston, MA",
-    description: "Conduct cutting-edge research in artificial intelligence and machine learning.",
-    tags: ["AI", "Research", "PhD Preferred"],
-  },
-  {
-    id: 6,
-    title: "Women in Tech Scholarship",
-    company: "TechDiversity",
-    type: "scholarship",
-    location: "Remote",
-    deadline: "2024-01-15",
-    description: "Supporting women pursuing careers in technology with financial aid and mentorship.",
-    tags: ["Diversity", "Mentorship", "Career Fair"],
-  },
-];
-
 const BrowsePage = () => {
   const [filter, setFilter] = useState<"all" | "job" | "internship" | "scholarship">("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredOpportunities = mockOpportunities.filter(opp => {
+  // Get company posted jobs from localStorage
+  const companyPostedJobs: Opportunity[] = [];
+  const savedJobs = localStorage.getItem("postedJobs");
+  if (savedJobs) {
+    try {
+      const parsedJobs = JSON.parse(savedJobs);
+      const formattedJobs: Opportunity[] = parsedJobs.map((job: any) => ({
+        id: job.id,
+        title: job.title,
+        company: job.company,
+        type: job.type,
+        location: job.location,
+        salary: job.salary,
+        description: job.description,
+        tags: job.requirements || [],
+      }));
+      companyPostedJobs.push(...formattedJobs);
+    } catch (error) {
+      console.error("Error parsing company jobs:", error);
+    }
+  }
+
+  // Only use company posted jobs (no mock opportunities)
+  const allOpportunities = [...companyPostedJobs];
+
+  const filteredOpportunities = allOpportunities.filter(opp => {
     const matchesFilter = filter === "all" || opp.type === filter;
     const matchesSearch = opp.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           opp.company.toLowerCase().includes(searchQuery.toLowerCase()) ||

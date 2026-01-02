@@ -3,9 +3,25 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Play, Sparkles } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export default function Hero() {
   const [count, setCount] = useState(0)
+  const router = useRouter()
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user")
+    setIsLoggedIn(!!storedUser && JSON.parse(storedUser)?.loggedIn)
+  }, [])
+
+  const handleStartSearch = () => {
+    if (isLoggedIn) {
+      router.push("/browse")
+    } else {
+      router.push("/signup")
+    }
+  }
 
   // Animated counter effect
   useEffect(() => {
@@ -46,15 +62,14 @@ export default function Hero() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Link href="/signup">
-            <Button
-              size="lg"
-              className="glassmorphic-button-primary w-full sm:w-auto group transition-all duration-300 hover:scale-[1.03] hover:shadow-lg"
-            >
-              Start Your Search
-              <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </Button>
-          </Link>
+          <Button
+            size="lg"
+            className="glassmorphic-button-primary w-full sm:w-auto group transition-all duration-300 hover:scale-[1.03] hover:shadow-lg"
+            onClick={handleStartSearch}
+          >
+            Start Your Search
+            <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </Button>
 
           <Button
             size="lg"

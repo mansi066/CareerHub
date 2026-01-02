@@ -1,13 +1,22 @@
 "use client"
 
-import { useState } from "react"
-import { Menu, X } from "lucide-react"
+import { useState, useEffect } from "react"
+import { Menu, X, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ThemeToggle } from "./theme-toggle"
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isCompanyLoggedIn, setIsCompanyLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user")
+    const storedCompany = localStorage.getItem("companyUser")
+    setIsLoggedIn(!!storedUser && JSON.parse(storedUser)?.loggedIn)
+    setIsCompanyLoggedIn(!!storedCompany && JSON.parse(storedCompany)?.companyLoggedIn)
+  }, [])
 
   return (
     <header className="sticky top-0 z-50 glassmorphic border-b">
@@ -20,32 +29,62 @@ export default function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
-          <a href="/browse" className="text-muted-foreground hover:text-foreground transition-colors smooth-fade">
+        <div className="hidden md:flex items-center gap-2">
+          <Link href="/browse" className="relative px-4 py-2 text-foreground/80 hover:text-foreground transition-colors smooth-fade group">
             Browse
-          </a>
-          <Link href="/assessments" className="text-muted-foreground hover:text-foreground transition-colors smooth-fade">
-            Assessments
+            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-foreground/80 group-hover:bg-foreground group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
           </Link>
-          <a href="#testimonials" className="text-muted-foreground hover:text-foreground transition-colors smooth-fade">
+          <Link href="/assessments" className="relative px-4 py-2 text-foreground/80 hover:text-foreground transition-colors smooth-fade group">
+            Assessments
+            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-foreground/80 group-hover:bg-foreground group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+          </Link>
+          <a href="#testimonials" className="relative px-4 py-2 text-foreground/80 hover:text-foreground transition-colors smooth-fade group">
             Success Stories
+            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-foreground/80 group-hover:bg-foreground group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
           </a>
-          <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors smooth-fade">
+          <a href="#pricing" className="relative px-4 py-2 text-foreground/80 hover:text-foreground transition-colors smooth-fade group">
             Plans
+            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-foreground/80 group-hover:bg-foreground group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
           </a>
         </div>
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
           <ThemeToggle />
-          <Link href="/login">
-            <Button variant="ghost" className="hover:bg-foreground/10">
-              Sign In
-            </Button>
-          </Link>
-          <Link href="/signup">
-            <Button className="glassmorphic-button-primary">Sign Up</Button>
-          </Link>
+          {isCompanyLoggedIn ? (
+            <Link href="/company/dashboard">
+              <Button className="glassmorphic-button-primary flex items-center gap-2">
+                <User className="w-4 h-4" />
+                Company Dashboard
+              </Button>
+            </Link>
+          ) : isLoggedIn ? (
+            <Link href="/dashboard">
+              <Button className="glassmorphic-button-primary flex items-center gap-2">
+                <User className="w-4 h-4" />
+                Dashboard
+              </Button>
+            </Link>
+          ) : (
+            <>
+              <Link href="/company/login">
+                <Button className="glassmorphic-button-primary relative group">
+                  Company 
+                  <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-foreground text-background text-xs px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                    Company Login
+                  </span>
+                </Button>
+              </Link>
+              <Link href="/login">
+                <Button className="glassmorphic-button-primary relative group">
+                  Student
+                  <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-foreground text-background text-xs px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                    Student Login
+                  </span>
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -57,28 +96,61 @@ export default function Header() {
         {isOpen && (
           <div className="absolute top-16 left-0 right-0 glassmorphic border-b p-4 md:hidden slide-up">
             <div className="flex flex-col gap-4">
-              <a href="#features" className="text-foreground hover:text-muted-foreground transition-colors">
+              <Link href="/browse" className="relative px-4 py-2 text-foreground/80 hover:text-foreground transition-colors group">
                 Browse
-              </a>
-              <Link href="/assessments" className="text-foreground hover:text-muted-foreground transition-colors">
-                Assessments
+                <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-foreground/80 group-hover:bg-foreground group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
               </Link>
-              <a href="#testimonials" className="text-foreground hover:text-muted-foreground transition-colors">
+              <Link href="/assessments" className="relative px-4 py-2 text-foreground/80 hover:text-foreground transition-colors group">
+                Assessments
+                <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-foreground/80 group-hover:bg-foreground group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+              </Link>
+              <a href="#testimonials" className="relative px-4 py-2 text-foreground/80 hover:text-foreground transition-colors group">
                 Success Stories
+                <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-foreground/80 group-hover:bg-foreground group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
               </a>
-              <a href="#pricing" className="text-foreground hover:text-muted-foreground transition-colors">
+              <a href="#pricing" className="relative px-4 py-2 text-foreground/80 hover:text-foreground transition-colors group">
                 Plans
+                <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-foreground/80 group-hover:bg-foreground group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
               </a>
               <div className="flex gap-2 pt-4">
                 <ThemeToggle />
-                <Link href="/login" className="flex-1">
-                  <Button variant="outline" className="w-full">
-                    Sign In
-                  </Button>
-                </Link>
-                <Link href="/signup" className="flex-1">
-                  <Button className="w-full glassmorphic-button-primary">Sign Up</Button>
-                </Link>
+                {isCompanyLoggedIn ? (
+                  <Link href="/company/dashboard" className="flex-1">
+                    <Button className="w-full glassmorphic-button-primary flex items-center justify-center gap-2">
+                      <User className="w-4 h-4" />
+                      Company Dashboard
+                    </Button>
+                  </Link>
+                ) : isLoggedIn ? (
+                  <Link href="/dashboard" className="flex-1">
+                    <Button className="w-full glassmorphic-button-primary flex items-center justify-center gap-2">
+                      <User className="w-4 h-4" />
+                      Dashboard
+                    </Button>
+                  </Link>
+                ) : (
+                  <>
+                    <Link href="/company/login" className="flex-1">
+                      <Button variant="outline" className="w-full relative group">
+                        Company Login
+                        <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-foreground text-background text-xs px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                          Company Login
+                        </span>
+                      </Button>
+                    </Link>
+                    <Link href="/login" className="flex-1">
+                      <Button variant="outline" className="w-full relative group">
+                        Sign In
+                        <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-foreground text-background text-xs px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                          Student Login
+                        </span>
+                      </Button>
+                    </Link>
+                    <Link href="/signup" className="flex-1">
+                      <Button className="w-full glassmorphic-button-primary">Sign Up</Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
