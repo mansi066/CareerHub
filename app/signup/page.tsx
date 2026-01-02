@@ -1,12 +1,15 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { ArrowLeft } from "lucide-react"
+
+// ✅ add existing components
+import Header from "@/components/header"
+import Footer from "@/components/footer"
 
 export default function SignupPage() {
   const router = useRouter()
@@ -45,7 +48,6 @@ export default function SignupPage() {
         return
       }
 
-      // Simulate signup - replace with actual Supabase auth in production
       localStorage.setItem(
         "user",
         JSON.stringify({
@@ -55,7 +57,7 @@ export default function SignupPage() {
         }),
       )
       router.push("/dashboard")
-    } catch (err) {
+    } catch {
       setError("Sign up failed. Please try again.")
     } finally {
       setIsLoading(false)
@@ -63,112 +65,119 @@ export default function SignupPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center px-4 fade-in">
-      <div className="w-full max-w-md">
-        {/* Back Button */}
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Home
-        </Link>
+    <>
+      {/* Header */}
+      <Header />
 
-        {/* Form Container */}
-        <div className="glassmorphic p-8 rounded-2xl border-foreground/10 scale-in">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Create Your Account</h1>
-          <p className="text-muted-foreground mb-8">Join thousands finding their next opportunity</p>
+      {/* Signup Content */}
+      <main className="min-h-[calc(100vh-4rem)] bg-background flex items-center justify-center px-4 fade-in">
+        <div className="w-full max-w-md">
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Full Name Input */}
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">Full Name</label>
-              <input
-                type="text"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleChange}
-                placeholder="John Doe"
-                className="glass-input w-full"
-                required
-              />
-            </div>
+          <div className="glassmorphic p-8 rounded-2xl border-foreground/10 scale-in">
+            <h1 className="text-3xl font-bold text-foreground mb-2">
+              Create Your Account
+            </h1>
+            <p className="text-muted-foreground mb-8">
+              Join thousands finding their next opportunity
+            </p>
 
-            {/* Email Input */}
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">Email Address</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="you@example.com"
-                className="glass-input w-full"
-                required
-              />
-            </div>
-
-            {/* Password Input */}
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">Password</label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="••••••••"
-                className="glass-input w-full"
-                required
-              />
-            </div>
-
-            {/* Confirm Password Input */}
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">Confirm Password</label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                placeholder="••••••••"
-                className="glass-input w-full"
-                required
-              />
-            </div>
-
-            {/* Error Message */}
-            {error && (
-              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-600 dark:text-red-400 text-sm">
-                {error}
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  placeholder="John Doe"
+                  className="glass-input w-full"
+                  required
+                />
               </div>
-            )}
 
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="w-full glassmorphic-button-primary font-semibold"
-            >
-              {isLoading ? "Creating Account..." : "Create Account"}
-            </Button>
-          </form>
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="you@example.com"
+                  className="glass-input w-full"
+                  required
+                />
+              </div>
 
-          {/* Divider */}
-          <div className="flex items-center gap-4 my-6">
-            <div className="flex-1 h-px bg-foreground/10" />
-            <span className="text-xs text-muted-foreground">OR</span>
-            <div className="flex-1 h-px bg-foreground/10" />
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  className="glass-input w-full"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Confirm Password
+                </label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  className="glass-input w-full"
+                  required
+                />
+              </div>
+
+              {error && (
+                <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-600 dark:text-red-400 text-sm">
+                  {error}
+                </div>
+              )}
+
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full glassmorphic-button-primary text-foreground font-semibold"
+              >
+                {isLoading ? "Creating Account..." : "Create Account"}
+              </Button>
+            </form>
+
+            <div className="flex items-center gap-4 my-6">
+              <div className="flex-1 h-px bg-foreground/10" />
+              <span className="text-xs text-muted-foreground">OR</span>
+              <div className="flex-1 h-px bg-foreground/10" />
+            </div>
+
+            <p className="text-center text-sm text-muted-foreground">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="text-foreground font-semibold hover:underline"
+              >
+                Sign In
+              </Link>
+            </p>
           </div>
-
-          {/* Sign In Link */}
-          <p className="text-center text-sm text-muted-foreground">
-            Already have an account?{" "}
-            <Link href="/login" className="text-foreground font-semibold hover:underline">
-              Sign In
-            </Link>
-          </p>
         </div>
-      </div>
-    </main>
+      </main>
+
+      {/* Footer */}
+      <Footer />
+    </>
   )
 }

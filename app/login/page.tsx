@@ -1,12 +1,15 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { ArrowLeft } from "lucide-react"
+
+// ✅ import existing components
+import Header from "@/components/header"
+import Footer from "@/components/footer"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -21,14 +24,13 @@ export default function LoginPage() {
     setError("")
 
     try {
-      // Simulate authentication - replace with actual Supabase auth in production
       if (email && password.length >= 6) {
         localStorage.setItem("user", JSON.stringify({ email, loggedIn: true }))
         router.push("/dashboard")
       } else {
         setError("Invalid email or password")
       }
-    } catch (err) {
+    } catch {
       setError("Login failed. Please try again.")
     } finally {
       setIsLoading(false)
@@ -36,82 +38,87 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center px-4 fade-in">
-      <div className="w-full max-w-md">
-        {/* Back Button */}
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Home
-        </Link>
+    <>
+      {/* Header */}
+      <Header />
 
-        {/* Form Container */}
-        <div className="glassmorphic p-8 rounded-2xl border-foreground/10 scale-in">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Welcome Back</h1>
-          <p className="text-muted-foreground mb-8">Sign in to your CareerHub account</p>
+      {/* Login Content */}
+      <main className="min-h-[calc(100vh-4rem)] bg-background flex items-center justify-center px-4 fade-in">
+        <div className="w-full max-w-md">
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email Input */}
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">Email Address</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                className="glass-input w-full"
-                required
-              />
-            </div>
+          <div className="glassmorphic p-8 rounded-2xl border-foreground/10 scale-in">
+            <h1 className="text-3xl font-bold text-foreground mb-2">
+              Welcome Back
+            </h1>
+            <p className="text-muted-foreground mb-8">
+              Sign in to your CareerHub account
+            </p>
 
-            {/* Password Input */}
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="glass-input w-full"
-                required
-              />
-            </div>
-
-            {/* Error Message */}
-            {error && (
-              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-600 dark:text-red-400 text-sm">
-                {error}
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  className="glass-input w-full"
+                  required
+                />
               </div>
-            )}
 
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="w-full glassmorphic-button-primary font-semibold"
-            >
-              {isLoading ? "Signing in..." : "Sign In"}
-            </Button>
-          </form>
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="glass-input w-full"
+                  required
+                />
+              </div>
 
-          {/* Divider */}
-          <div className="flex items-center gap-4 my-6">
-            <div className="flex-1 h-px bg-foreground/10" />
-            <span className="text-xs text-muted-foreground">OR</span>
-            <div className="flex-1 h-px bg-foreground/10" />
+              {error && (
+                <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-600 dark:text-red-400 text-sm">
+                  {error}
+                </div>
+              )}
+
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full glassmorphic-button-primary font-semibold"
+              >
+                {isLoading ? "Signing in..." : "Sign In"}
+              </Button>
+            </form>
+
+            <div className="flex items-center gap-4 my-6">
+              <div className="flex-1 h-px bg-foreground/10" />
+              <span className="text-xs text-muted-foreground">OR</span>
+              <div className="flex-1 h-px bg-foreground/10" />
+            </div>
+
+            <p className="text-center text-sm text-muted-foreground">
+              Don't have an account?{" "}
+              <Link
+                href="/signup"
+                className="text-foreground font-semibold hover:underline"
+              >
+                Sign Up
+              </Link>
+            </p>
           </div>
-
-          {/* Sign Up Link */}
-          <p className="text-center text-sm text-muted-foreground">
-            Don't have an account?{" "}
-            <Link href="/signup" className="text-foreground font-semibold hover:underline">
-              Sign Up
-            </Link>
-          </p>
         </div>
-      </div>
-    </main>
+      </main>
+
+      {/* Footer */}
+      <Footer />
+    </>
   )
 }
