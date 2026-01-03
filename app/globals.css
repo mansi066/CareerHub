@@ -135,8 +135,8 @@
   }
 
   .glassmorphic-button-primary {
-    @apply bg-foreground/10 backdrop-blur-md border border-foreground/30 text-background;
-    @apply hover:bg-foreground/20 hover:border-foreground/50 hover:shadow-xl;
+    @apply bg-primary/90 backdrop-blur-md border border-primary/50 text-primary-foreground;
+    @apply hover:bg-primary hover:border-primary hover:shadow-xl;
     @apply active:scale-95;
   }
 
