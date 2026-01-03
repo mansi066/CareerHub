@@ -1,10 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import { LogOut, Search } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import JobSearchFilter from "@/components/JobSearchFilter"
 
 interface User {
