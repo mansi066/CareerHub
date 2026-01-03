@@ -60,8 +60,8 @@ export default function Header() {
   const LINKS = [
     { name: "Browse", href: "/browse" },
     { name: "Assessments", href: "/assessments" },
-    { name: "Success Stories", hash: "testimonials" },
-    { name: "Plans", hash: "pricing" },
+    { name: "Success Stories", href: "/success-stories" },
+    { name: "Plans", href: "/plans" },
   ];
 
   const renderLink = (link: typeof LINKS[number], mobile = false) => {
