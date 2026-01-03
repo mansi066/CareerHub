@@ -1,18 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import JobSearchFilter from "@/components/JobSearchFilter"
 
-interface User {
-  email: string;
-  fullName?: string;
-  loggedIn: boolean;
-}
-
-// Keep your const allJobs array below this...
-
-// This is where your jobs come from - if they are fetched from an API, 
-// make sure to use that data instead of this mock array.
+// This is where your jobs come from
 const allJobs = [
   { id: 1, title: "Frontend Developer", company: "TechCorp", type: "Full-time", location: "Remote" },
   { id: 2, title: "Backend Intern", company: "DataSync", type: "Internship", location: "On-site" },
@@ -49,7 +40,6 @@ export default function DashboardContent() {
         <p className="text-muted-foreground">Manage and find your next opportunities.</p>
       </div>
 
-      {/* The Search Filter with Dark Mode support */}
       <JobSearchFilter onFilterChange={handleFilterChange} />
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-1">
