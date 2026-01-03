@@ -5,7 +5,8 @@ import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft } from "lucide-react";
+import toast from "react-hot-toast";
 
 // ✅ Existing Components
 import Header from "@/components/header"
@@ -98,8 +99,13 @@ export default function SignupPage() {
 
       // Simulate extra delay
       await new Promise((resolve) => setTimeout(resolve, 200))
-
-      router.push("/dashboard")
+      // Show toast
+      toast.success("Complete your profile to get the best job matches!", {
+        duration: 10000, // 8 seconds
+        position: "top-right",
+      })
+      // Redirect to profile page instead of dashboard
+      router.push("/profile/edit");
     } catch (err) {
       setError("Sign up failed. Please try again.")
       console.error("Signup error:", err)
