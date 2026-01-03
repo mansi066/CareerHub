@@ -402,78 +402,90 @@ export default function JobPostsPage() {
             </Card>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {jobPosts.map((job) => (
-                <Card key={job.id} className="glassmorphic overflow-hidden">
-                  <CardHeader className="pb-3">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle className="text-lg text-foreground">{job.title}</CardTitle>
-                        <div className="flex items-center gap-2 mt-1">
-                          <Badge variant={job.type === 'job' ? 'default' : 'secondary'}>
-                            {job.type === 'job' ? 'Job' : 'Internship'}
-                          </Badge>
-                          <span className="text-xs text-muted-foreground">{job.postedDate}</span>
-                        </div>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          onClick={() => handleEditClick(job)}
-                          className="h-8 w-8"
-                        >
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          onClick={() => handleDelete(job.id)}
-                          className="h-8 w-8 text-red-500 hover:text-red-600"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div className="flex items-center text-muted-foreground text-sm">
-                        <Building className="w-4 h-4 mr-2" />
-                        <span>{job.company}</span>
-                      </div>
-                      <div className="flex items-center text-muted-foreground text-sm">
-                        <MapPin className="w-4 h-4 mr-2" />
-                        <span>{job.location}</span>
-                      </div>
-                      <div className="flex items-center text-muted-foreground text-sm">
-                        <DollarSign className="w-4 h-4 mr-2" />
-                        <span>{job.salary}</span>
-                      </div>
-                      <div className="pt-2">
-                        <p className="text-sm text-foreground line-clamp-3">
-                          {job.description}
-                        </p>
-                      </div>
-                      <div className="pt-2">
-                        <h4 className="text-sm font-medium text-foreground mb-1">Requirements:</h4>
-                        <ul className="space-y-1">
-                          {job.requirements.slice(0, 3).map((req, index) => (
-                            <li key={index} className="text-xs text-muted-foreground flex items-start">
-                              <span className="w-1.5 h-1.5 bg-foreground rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
-                              {req}
-                            </li>
-                          ))}
-                          {job.requirements.length > 3 && (
-                            <li className="text-xs text-muted-foreground">
-                              +{job.requirements.length - 3} more
-                            </li>
-                          )}
-                        </ul>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+              {jobPosts.length === 0 ? (
+  <div className="text-center py-12">
+    <h3 className="text-xl font-semibold text-foreground mb-2">
+      No opportunities available at the moment
+    </h3>
+    <p className="text-muted-foreground">
+      Please check back later or create a new listing.
+    </p>
+  </div>
+) : (
+  jobPosts.map((job) => (
+    <Card key={job.id} className="glassmorphic overflow-hidden">
+      <CardHeader className="pb-3">
+        <div className="flex justify-between items-start">
+          <div>
+            <CardTitle className="text-lg text-foreground">{job.title}</CardTitle>
+            <div className="flex items-center gap-2 mt-1">
+              <Badge variant={job.type === 'job' ? 'default' : 'secondary'}>
+                {job.type === 'job' ? 'Job' : 'Internship'}
+              </Badge>
+              <span className="text-xs text-muted-foreground">{job.postedDate}</span>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => handleEditClick(job)}
+              className="h-8 w-8"
+            >
+              <Edit className="w-4 h-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => handleDelete(job.id)}
+              className="h-8 w-8 text-red-500 hover:text-red-600"
+            >
+              <Trash2 className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-3">
+          <div className="flex items-center text-muted-foreground text-sm">
+            <Building className="w-4 h-4 mr-2" />
+            <span>{job.company}</span>
+          </div>
+          <div className="flex items-center text-muted-foreground text-sm">
+            <MapPin className="w-4 h-4 mr-2" />
+            <span>{job.location}</span>
+          </div>
+          <div className="flex items-center text-muted-foreground text-sm">
+            <DollarSign className="w-4 h-4 mr-2" />
+            <span>{job.salary}</span>
+          </div>
+          <div className="pt-2">
+            <p className="text-sm text-foreground line-clamp-3">
+              {job.description}
+            </p>
+          </div>
+          <div className="pt-2">
+            <h4 className="text-sm font-medium text-foreground mb-1">Requirements:</h4>
+            <ul className="space-y-1">
+              {job.requirements.slice(0, 3).map((req, index) => (
+                <li key={index} className="text-xs text-muted-foreground flex items-start">
+                  <span className="w-1.5 h-1.5 bg-foreground rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                  {req}
+                </li>
               ))}
+              {job.requirements.length > 3 && (
+                <li className="text-xs text-muted-foreground">
+                  +{job.requirements.length - 3} more
+                </li>
+              )}
+            </ul>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  ))
+)}
+
             </div>
           )}
         </div>
