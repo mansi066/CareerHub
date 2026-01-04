@@ -6,7 +6,7 @@ import Link from "next/link"
 
 export default function CTA() {
   return (
-    <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-background">
+    <section className="pt-16 pb-12 md:pt-20 md:pb-16 px-4 sm:px-6 lg:px-8 bg-background">
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6 text-pretty">
           Ready to advance your career?
@@ -16,7 +16,7 @@ export default function CTA() {
           journey today with CareerHub.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          
+
           <Link href="/browse">
             <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
               Explore Opportunities Now

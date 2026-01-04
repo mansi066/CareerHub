@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Play, Sparkles } from "lucide-react"
+import { ArrowRight, ChevronDown, Play, Sparkles } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
@@ -40,7 +40,7 @@ export default function Hero() {
   }, [])
 
   return (
-    <section className="relative py-20 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative pt-12 pb-24 md:pt-16 md:pb-32 lg:pt-20 lg:pb-40 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-4xl mx-auto text-center">
 
         {/* Animated stats badge */}
@@ -81,9 +81,18 @@ export default function Hero() {
           </Button>
         </div>
 
-        <p className="text-sm text-muted-foreground mt-8">
+        <Link
+          href="/signup"
+          className="inline-block text-sm text-muted-foreground mt-12 hover:text-foreground transition-colors underline-offset-4 hover:underline"
+        >
           Free to use. Sign up in 2 minutes.
-        </p>
+        </Link>
+
+        {/* Scroll Indicator */}
+        <div className="mt-20 flex flex-col items-center animate-bounce text-muted-foreground/60">
+          <span className="text-sm mb-2">Scroll down to view more details</span>
+          <ChevronDown className="w-6 h-6" />
+        </div>
       </div>
 
       {/* Background blobs */}

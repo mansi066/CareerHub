@@ -58,16 +58,17 @@ export default function Header() {
   };
 
   const LINKS = [
-    { name: "Browse", href: "/browse" },
-    { name: "Assessments", href: "/assessments" },
+    { name: "Home", href: "/" },
     { name: "Success Stories", hash: "testimonials" },
     { name: "Plans", hash: "pricing" },
+    { name: "Assessments", href: "/assessments" },
+    { name: "Browse", href: "/browse" },
   ];
 
   const renderLink = (link: typeof LINKS[number], mobile = false) => {
     const baseClasses = mobile
-      ? "w-full rounded-lg px-4 py-3 text-base font-medium text-left text-foreground/80 hover:bg-foreground/10 hover:text-foreground transition"
-      : "relative px-4 py-2 text-foreground/80 hover:text-foreground transition";
+      ? "w-full rounded-lg px-4 py-3 text-base font-medium text-left text-foreground/80 hover:bg-foreground/10 hover:text-primary transition"
+      : "relative text-sm font-medium tracking-tight text-foreground/70 hover:text-foreground transition-colors whitespace-nowrap";
 
     if (link.href) {
       return (
@@ -153,33 +154,41 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 h-16 glassmorphic border-b">
       <nav className="max-w-7xl mx-auto h-16 px-4 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-foreground/20 flex items-center justify-center font-bold">
-            C
-          </div>
-          <span className="font-bold hidden sm:block">CareerHub</span>
-        </Link>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:flex gap-2">
-          {LINKS.map((l) => renderLink(l))}
+        {/* Logo - Section 1 */}
+        <div className="flex-shrink-0">
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="w-8 h-8 rounded-lg bg-foreground/10 group-hover:bg-foreground/20 flex items-center justify-center font-bold transition-colors">
+              C
+            </div>
+            <span className="font-bold hidden sm:block tracking-tight">CareerHub</span>
+          </Link>
         </div>
 
-        {/* Desktop CTA */}
-        <div className="hidden md:flex items-center gap-3">
-          <ThemeToggle />
+        {/* Desktop Nav - Section 2 */}
+        {/* Using flex-1 and justify-center to allow "space usage" while maintaining visual balance */}
+        <div className="hidden md:flex flex-1 items-center justify-center px-4 lg:px-8">
+          <div className="flex items-center gap-5 lg:gap-8">
+            {LINKS.map((l) => renderLink(l))}
+          </div>
+        </div>
+
+        {/* Right Section - Auth (Sec 3) + Toggle (Sec 4) */}
+        <div className="hidden md:flex items-center gap-4 flex-shrink-0">
           {renderCTA()}
+          {/* Theme Toggle is Section 4 (Far Right) */}
+          <ThemeToggle />
         </div>
 
         {/* Mobile Toggle */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 rounded-lg hover:bg-foreground/10"
-          aria-label="Toggle Menu"
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="md:hidden flex-shrink-0">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 rounded-lg hover:bg-foreground/10"
+            aria-label="Toggle Menu"
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile Menu */}

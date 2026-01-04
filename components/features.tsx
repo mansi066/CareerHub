@@ -53,7 +53,7 @@ export default function Features() {
   ]
 
   return (
-    <section id="features" className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-card/30">
+    <section id="features" className="py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-card/30">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16 slide-up">
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4 text-pretty">
@@ -76,13 +76,12 @@ export default function Features() {
                 <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
               </>
             )
-            
+
             return (
               <Card
                 key={feature.id}
-                className={`p-8 glassmorphic border-foreground/10 spotlight-card hover-card scale-in ${
-                  feature.link ? 'cursor-pointer hover:scale-105 transition-transform' : ''
-                }`}
+                className={`p-8 glassmorphic border-foreground/10 spotlight-card hover-card scale-in ${feature.link ? 'cursor-pointer hover:scale-105 transition-transform' : ''
+                  }`}
                 style={{ animationDelay: `${idx * 100}ms` }}
               >
                 {feature.link ? (

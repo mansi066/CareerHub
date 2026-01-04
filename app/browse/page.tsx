@@ -26,7 +26,7 @@ const BrowsePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [allOpportunities, setAllOpportunities] = useState<Opportunity[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   useEffect(() => {
     // Get company posted jobs from localStorage
     const companyPostedJobs: Opportunity[] = [];
@@ -49,7 +49,7 @@ const BrowsePage = () => {
         console.error("Error parsing company jobs:", error);
       }
     }
-    
+
     // Only use company posted jobs (no mock opportunities)
     setAllOpportunities(companyPostedJobs);
     setIsLoading(false);
@@ -57,9 +57,9 @@ const BrowsePage = () => {
 
   const filteredOpportunities = allOpportunities.filter(opp => {
     const matchesFilter = filter === "all" || opp.type === filter;
-    const matchesSearch = opp.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          opp.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          opp.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = opp.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      opp.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      opp.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesFilter && matchesSearch;
   });
 
@@ -86,137 +86,139 @@ const BrowsePage = () => {
       </main>
     );
   }
-  
+
   return (
     <main className="min-h-screen bg-background">
       <Header />
-      
-      <div className="py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Hero Section */}
-          <section className="text-center mb-12 py-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Discover Your Next Opportunity
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Browse thousands of jobs, internships, and scholarships tailored to your skills and career goals.
-            </p>
-          </section>
 
-          {/* Search and Filter Section */}
-          <section className="mb-12">
-            <div className="glassmorphic p-6 rounded-2xl border-foreground/10">
-              <div className="flex flex-col md:flex-row gap-4">
-                <div className="flex-1 relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                  <input
-                    type="text"
-                    placeholder="Search opportunities..."
-                    className="glass-input w-full pl-10"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-                <div className="flex gap-2">
-                  <Button 
-                    variant={filter === "all" ? "default" : "outline"} 
-                    onClick={() => setFilter("all")}
-                    className={filter === "all" ? "bg-foreground text-background" : ""}
-                  >
-                    All
-                  </Button>
-                  <Button 
-                    variant={filter === "job" ? "default" : "outline"} 
-                    onClick={() => setFilter("job")}
-                    className={filter === "job" ? "bg-blue-600 text-white" : ""}
-                  >
-                    Jobs
-                  </Button>
-                  <Button 
-                    variant={filter === "internship" ? "default" : "outline"} 
-                    onClick={() => setFilter("internship")}
-                    className={filter === "internship" ? "bg-green-600 text-white" : ""}
-                  >
-                    Internships
-                  </Button>
-                  <Button 
-                    variant={filter === "scholarship" ? "default" : "outline"} 
-                    onClick={() => setFilter("scholarship")}
-                    className={filter === "scholarship" ? "bg-purple-600 text-white" : ""}
-                  >
-                    Scholarships
-                  </Button>
+      <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="py-8 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            {/* Hero Section */}
+            <section className="text-center mb-12 py-12">
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+                Discover Your Next Opportunity
+              </h1>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Browse thousands of jobs, internships, and scholarships tailored to your skills and career goals.
+              </p>
+            </section>
+
+            {/* Search and Filter Section */}
+            <section className="mb-12">
+              <div className="glassmorphic p-6 rounded-2xl border-foreground/10">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex-1 relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                    <input
+                      type="text"
+                      placeholder="Search opportunities..."
+                      className="glass-input w-full pl-10"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      variant={filter === "all" ? "default" : "outline"}
+                      onClick={() => setFilter("all")}
+                      className={filter === "all" ? "bg-foreground text-background" : ""}
+                    >
+                      All
+                    </Button>
+                    <Button
+                      variant={filter === "job" ? "default" : "outline"}
+                      onClick={() => setFilter("job")}
+                      className={filter === "job" ? "bg-blue-600 text-white" : ""}
+                    >
+                      Jobs
+                    </Button>
+                    <Button
+                      variant={filter === "internship" ? "default" : "outline"}
+                      onClick={() => setFilter("internship")}
+                      className={filter === "internship" ? "bg-green-600 text-white" : ""}
+                    >
+                      Internships
+                    </Button>
+                    <Button
+                      variant={filter === "scholarship" ? "default" : "outline"}
+                      onClick={() => setFilter("scholarship")}
+                      className={filter === "scholarship" ? "bg-purple-600 text-white" : ""}
+                    >
+                      Scholarships
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
 
-          {/* Opportunities Grid */}
-          <section>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredOpportunities.map((opportunity) => (
-                <Card key={opportunity.id} className="glassmorphic hover:scale-[1.02] transition-transform duration-300">
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <CardTitle className="text-xl">{opportunity.title}</CardTitle>
-                      <Badge className={getTypeColor(opportunity.type)}>
-                        {opportunity.type.charAt(0).toUpperCase() + opportunity.type.slice(1)}
-                      </Badge>
-                    </div>
-                    <p className="font-semibold text-foreground">{opportunity.company}</p>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div className="flex items-center text-muted-foreground">
-                        <MapPin className="w-4 h-4 mr-2" />
-                        <span>{opportunity.location}</span>
+            {/* Opportunities Grid */}
+            <section>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredOpportunities.map((opportunity) => (
+                  <Card key={opportunity.id} className="glassmorphic hover:scale-[1.02] transition-transform duration-300">
+                    <CardHeader>
+                      <div className="flex justify-between items-start">
+                        <CardTitle className="text-xl">{opportunity.title}</CardTitle>
+                        <Badge className={getTypeColor(opportunity.type)}>
+                          {opportunity.type.charAt(0).toUpperCase() + opportunity.type.slice(1)}
+                        </Badge>
                       </div>
-                      
-                      {opportunity.salary && (
+                      <p className="font-semibold text-foreground">{opportunity.company}</p>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
                         <div className="flex items-center text-muted-foreground">
-                          <DollarSign className="w-4 h-4 mr-2" />
-                          <span>{opportunity.salary}</span>
+                          <MapPin className="w-4 h-4 mr-2" />
+                          <span>{opportunity.location}</span>
                         </div>
-                      )}
-                      
-                      {opportunity.deadline && (
-                        <div className="flex items-center text-muted-foreground">
-                          <Clock className="w-4 h-4 mr-2" />
-                          <span>Deadline: {opportunity.deadline}</span>
+
+                        {opportunity.salary && (
+                          <div className="flex items-center text-muted-foreground">
+                            <DollarSign className="w-4 h-4 mr-2" />
+                            <span>{opportunity.salary}</span>
+                          </div>
+                        )}
+
+                        {opportunity.deadline && (
+                          <div className="flex items-center text-muted-foreground">
+                            <Clock className="w-4 h-4 mr-2" />
+                            <span>Deadline: {opportunity.deadline}</span>
+                          </div>
+                        )}
+
+                        <p className="text-muted-foreground text-sm mt-2 line-clamp-2">
+                          {opportunity.description}
+                        </p>
+
+                        <div className="flex flex-wrap gap-2 mt-4">
+                          {opportunity.tags.map((tag, index) => (
+                            <Badge key={index} variant="secondary" className="text-xs">
+                              {tag}
+                            </Badge>
+                          ))}
                         </div>
-                      )}
-                      
-                      <p className="text-muted-foreground text-sm mt-2 line-clamp-2">
-                        {opportunity.description}
-                      </p>
-                      
-                      <div className="flex flex-wrap gap-2 mt-4">
-                        {opportunity.tags.map((tag, index) => (
-                          <Badge key={index} variant="secondary" className="text-xs">
-                            {tag}
-                          </Badge>
-                        ))}
+
+                        <Button className="w-full mt-4 glassmorphic-button-primary">
+                          View Details
+                        </Button>
                       </div>
-                      
-                      <Button className="w-full mt-4 glassmorphic-button-primary">
-                        View Details
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-            
-            {filteredOpportunities.length === 0 && (
-              <div className="text-center py-12">
-                <h3 className="text-xl font-semibold text-foreground mb-2">No opportunities found</h3>
-                <p className="text-muted-foreground">Try adjusting your search or filter criteria</p>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
-            )}
-          </section>
+
+              {filteredOpportunities.length === 0 && (
+                <div className="text-center py-12">
+                  <h3 className="text-xl font-semibold text-foreground mb-2">No opportunities found</h3>
+                  <p className="text-muted-foreground">Try adjusting your search or filter criteria</p>
+                </div>
+              )}
+            </section>
+          </div>
         </div>
       </div>
-      
+
       <Footer />
     </main>
   );
