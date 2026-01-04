@@ -151,7 +151,7 @@ export default function DashboardContent() {
                   className="glassmorphic p-6 rounded-xl border-foreground/10 hover:border-foreground/30 transition-all duration-300 cursor-pointer scale-in"
                   style={{ animationDelay: `${idx * 100}ms` }}
                 >
-                  <div className="mb-3">{item.icon}</div>
+                  <div className="inline-flex items-center justify-center w-12 h-12 bg-foreground/10 rounded-lg mb-3">{item.icon}</div>
                   <h3 className="text-lg font-semibold text-foreground mb-1">{item.title}</h3>
                   <p className="text-sm text-muted-foreground">{item.description}</p>
                 </div>
