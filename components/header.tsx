@@ -47,6 +47,7 @@ export default function Header() {
   const LINKS = [
     { name: "Browse", href: "/browse" },
     { name: "Companies", href: "/companies" },
+    { name: "Bookmarks", href: "/bookmarks" },
     { name: "Assessments", href: "/assessments" },
     { name: "Success Stories", hash: "testimonials" },
     { name: "Plans", hash: "pricing" },

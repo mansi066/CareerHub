@@ -9,6 +9,8 @@ import Link from "next/link";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { CompanyDataManager } from "@/lib/company-data";
+import BookmarkButton from "@/components/bookmark-button";
+import BookmarkButton from "@/components/bookmark-button";
 
 interface Opportunity {
   id: number;
@@ -162,10 +164,20 @@ const BrowsePage = () => {
                 <Card key={opportunity.id} className="glassmorphic hover:scale-[1.02] transition-transform duration-300">
                   <CardHeader>
                     <div className="flex justify-between items-start">
-                      <CardTitle className="text-xl">{opportunity.title}</CardTitle>
-                      <Badge className={getTypeColor(opportunity.type)}>
-                        {opportunity.type.charAt(0).toUpperCase() + opportunity.type.slice(1)}
-                      </Badge>
+                      <div className="flex-1">
+                        <CardTitle className="text-xl">{opportunity.title}</CardTitle>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <BookmarkButton
+                          opportunity={opportunity}
+                          type={opportunity.type}
+                          variant="heart"
+                          size="sm"
+                        />
+                        <Badge className={getTypeColor(opportunity.type)}>
+                          {opportunity.type.charAt(0).toUpperCase() + opportunity.type.slice(1)}
+                        </Badge>
+                      </div>
                     </div>
                     <div className="flex items-center space-x-2">
                       <p className="font-semibold text-foreground">{opportunity.company}</p>

@@ -1,6 +1,6 @@
 "use client"
 
-import { Briefcase, GraduationCap, Lightbulb, MapPin, Trophy, Award, Building } from "lucide-react"
+import { Briefcase, GraduationCap, Lightbulb, MapPin, Trophy, Award, Building, Heart } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
 
@@ -38,20 +38,27 @@ export default function Features() {
     },
     {
       id: 5,
+      icon: Heart,
+      title: "Save & Organize",
+      description: "Bookmark opportunities and companies to create personalized collections for easy access later.",
+      link: "/bookmarks"
+    },
+    {
+      id: 6,
       icon: MapPin,
       title: "Smart Location Matching",
       description: "Filter by location, remote options, or relocation opportunities that suit your career preferences.",
       link: "/browse"
     },
     {
-      id: 6,
+      id: 7,
       icon: Trophy,
       title: "Skill Assessments",
       description: "Take industry-standard assessments and earn certificates that verify your expertise to boost job applications.",
       link: "/assessments"
     },
     {
-      id: 7,
+      id: 8,
       icon: Award,
       title: "Global Leaderboard",
       description: "Compete with professionals worldwide and showcase your skills on our global ranking system.",

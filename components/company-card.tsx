@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { CompanyProfile } from "@/lib/company-data";
+import BookmarkButton from "./bookmark-button";
+import BookmarkButton from "@/components/bookmark-button";
 
 interface CompanyCardProps {
   company: CompanyProfile;
@@ -40,11 +42,11 @@ export default function CompanyCard({ company, showViewButton = true }: CompanyC
     <Card className="glassmorphic hover-card group transition-all duration-300 hover:shadow-lg">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3 flex-1">
             <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/10 rounded-lg flex items-center justify-center">
               <Building className="w-6 h-6 text-primary" />
             </div>
-            <div>
+            <div className="flex-1">
               <CardTitle className="text-lg font-semibold group-hover:text-primary transition-colors">
                 {company.companyName}
               </CardTitle>
@@ -65,6 +67,12 @@ export default function CompanyCard({ company, showViewButton = true }: CompanyC
               </div>
             </div>
           </div>
+          <BookmarkButton
+            opportunity={company}
+            type="company"
+            variant="heart"
+            size="sm"
+          />
         </div>
       </CardHeader>
 
