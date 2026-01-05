@@ -10,7 +10,6 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { CompanyDataManager } from "@/lib/company-data";
 import BookmarkButton from "@/components/bookmark-button";
-import BookmarkButton from "@/components/bookmark-button";
 
 interface Opportunity {
   id: number;

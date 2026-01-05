@@ -15,7 +15,6 @@ import {
 import Link from "next/link";
 import { CompanyProfile } from "@/lib/company-data";
 import BookmarkButton from "./bookmark-button";
-import BookmarkButton from "@/components/bookmark-button";
 
 interface CompanyCardProps {
   company: CompanyProfile;
