@@ -102,7 +102,7 @@ export async function POST(request: Request) {
                 </div>
             `,
         });
-
+        console.log(emailResult);
         if (!emailResult.success) {
             // Still save user but warn about email issue
             console.error("Failed to send verification email:", emailResult.error);
