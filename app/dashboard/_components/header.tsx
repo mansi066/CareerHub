@@ -5,6 +5,7 @@ import { LogOut, User, Settings, Home } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { signOut, useSession } from "next-auth/react"
+import Image from "next/image"
 
 export default function Header() {
     const [showDropdown, setShowDropdown] = useState(false)
@@ -13,7 +14,7 @@ export default function Header() {
     const userName = session.data?.user?.name || "User"
     const userEmail = session.data?.user?.email || "user@example.com"
     const userImage = session.data?.user?.image || null
-
+    // console.log("Session Data:", session.data?.user?.image);
     // Close dropdown when clicking outside
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -70,7 +71,7 @@ export default function Header() {
                                 onClick={() => setShowDropdown(!showDropdown)}
                             >
                                 {userImage ? (
-                                    <img src={userImage} alt={userName} className="w-6 h-6 rounded-full object-cover" />
+                                    <Image src={userImage} alt={userName} width={24} height={24} className="w-6 h-6 rounded-full object-cover" />
                                 ) : (
                                     <User className="w-6 h-6" />
                                 )}
