@@ -5,19 +5,23 @@ export interface User extends Document {
     username: string;
     image: string;
     email: string;
-    password: string;
+    password?: string;
     isVarified: boolean;
     role?: string;
+    verifyCode?: string;
+    verifyCodeExpiry?: Date;
 }
 
 const UserSchema: Schema<User> = new mongoose.Schema({
     name: { type: String, required: true },
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true, index: true, match: /.+@.+\..+/ },
-    password: { type: String, required: true },
+    password: { type: String },
     isVarified: { type: Boolean, default: false, required: true },
     image: { type: String },
     role: { type: String, enum: ['user', 'company', 'startup'], default: 'user' },
+    verifyCode: { type: String },
+    verifyCodeExpiry: { type: Date },
 });
 
 const UserModel = mongoose.models.User as mongoose.Model<User> || mongoose.model<User>("User", UserSchema);
