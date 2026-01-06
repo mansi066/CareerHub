@@ -43,7 +43,6 @@ export default function LoginPage() {
         password: formData.password,
         redirect: false,
       })
-
       if (result?.error) {
         setError(result.error || "Invalid email or password")
       } else if (result?.ok) {

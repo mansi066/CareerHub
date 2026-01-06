@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Search, Building, Filter, Star } from "lucide-react";
-import Header from "@/components/header";
 import Footer from "@/components/footer";
 import CompanyCard from "@/components/company-card";
 import { CompanyProfile, CompanyDataManager } from "@/lib/company-data";
@@ -61,8 +60,8 @@ export default function CompaniesPage() {
     return {
       total: companies.length,
       withReviews: companies.filter(c => c.totalReviews > 0).length,
-      averageRating: companies.length > 0 
-        ? companies.reduce((sum, c) => sum + c.averageRating, 0) / companies.length 
+      averageRating: companies.length > 0
+        ? companies.reduce((sum, c) => sum + c.averageRating, 0) / companies.length
         : 0
     };
   };
@@ -72,7 +71,6 @@ export default function CompaniesPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
-        <Header />
         <div className="container mx-auto px-4 py-8">
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-center space-y-4">
@@ -88,8 +86,6 @@ export default function CompaniesPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-      
       <main className="container mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="text-center space-y-4 mb-12">
@@ -99,7 +95,7 @@ export default function CompaniesPage() {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Discover companies, read authentic reviews, and make informed career decisions
           </p>
-          
+
           {/* Stats */}
           <div className="flex items-center justify-center space-x-8 mt-8">
             <div className="text-center">

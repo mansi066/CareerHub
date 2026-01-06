@@ -29,6 +29,7 @@ export const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
+                console.log("Authorizing with credentials:", credentials);
                 await dbConnect();
 
                 const email = credentials?.email?.toLowerCase().trim();
