@@ -8,8 +8,6 @@ export interface User extends Document {
     password?: string;
     isVarified: boolean;
     role?: string;
-    verifyCode?: string;
-    verifyCodeExpiry?: Date;
 }
 
 const UserSchema: Schema<User> = new mongoose.Schema({
@@ -20,8 +18,7 @@ const UserSchema: Schema<User> = new mongoose.Schema({
     isVarified: { type: Boolean, default: false, required: true },
     image: { type: String },
     role: { type: String, enum: ['user', 'company', 'startup'], default: 'user' },
-    verifyCode: { type: String },
-    verifyCodeExpiry: { type: Date },
+
 });
 
 const UserModel = mongoose.models.User as mongoose.Model<User> || mongoose.model<User>("User", UserSchema);
