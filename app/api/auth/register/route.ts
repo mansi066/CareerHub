@@ -2,6 +2,7 @@ import dbConnect from "@/db/mongoDb";
 import UserModel from "@/models/User.Model";
 import { sendEmail } from "@/lib/email/send.email";
 import bcrypt from "bcryptjs";
+import { createAndStoreOTP } from "@/lib/services/otp";
 
 // Email validation regex
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -13,7 +14,7 @@ export async function POST(request: Request) {
     await dbConnect();
 
     try {
-        const { name, email, password, confirmPassword } = await request.json();
+        const { name, email, password } = await request.json();
 
         // Input validation
         if (!name || !email || !password) {
@@ -26,13 +27,6 @@ export async function POST(request: Request) {
         if (!emailRegex.test(email)) {
             return Response.json(
                 { success: false, message: "Invalid email format" },
-                { status: 400 }
-            );
-        }
-
-        if (password !== confirmPassword) {
-            return Response.json(
-                { success: false, message: "Passwords do not match" },
                 { status: 400 }
             );
         }
@@ -74,18 +68,26 @@ export async function POST(request: Request) {
                 username,
                 email,
                 password: await bcrypt.hash(password, 10),
-                verifyCode,
                 isVarified: false,
             });
             await newUser.save();
         }
         // Set verification code expiry (15 minutes from now)
-
+        const setOtp = await createAndStoreOTP(email, Number(verifyCode), 6, 15 * 60);
         // Send verification email
+        if (!setOtp) {
+            return Response.json(
+                {
+                    success: false,
+                    message: "Failed to generate verification code. Please try again."
+                },
+                { status: 500 }
+            );
+        }
         const emailResult = await sendEmail({
             to: email,
             subject: "Verify your CareerHub Account",
-            text: `Your verification code is: ${verifyCode}. This code will expire in 30 minutes.`,
+            text: `Your verification code is: ${verifyCode}. This code will expire in 15 minutes.`,
             html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                     <h2>Email Verification</h2>
