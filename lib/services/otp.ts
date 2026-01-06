@@ -7,9 +7,9 @@ export async function createAndStoreOTP(email: string, otp: Number, length: numb
     return String(otp);
 }
 
-export async function verifyOTP(email: string, otp: string): Promise<boolean> {
+export async function verifyOTP(email: string, otp: string | number): Promise<boolean> {
     const storedOTP = await redis.get(`otp:${email}`);
-    if (storedOTP === otp) {
+    if (storedOTP === String(otp)) {
         await redis.del(`otp:${email}`); // OTP is valid, delete it after verification
         return true;
     }
