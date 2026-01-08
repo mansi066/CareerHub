@@ -40,7 +40,7 @@ export default function Hero() {
   }, [])
 
   return (
-    <section className="relative py-20 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative py-12 sm:py-20 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-4xl mx-auto text-center">
 
         {/* Animated stats badge */}
@@ -50,7 +50,7 @@ export default function Hero() {
         </div>
 
         {/* Heading */}
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight">
+        <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight tracking-tight">
           Find jobs, scholarships & internships
         </h1>
 

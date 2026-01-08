@@ -73,15 +73,14 @@ export default function Pricing() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {plans.map((plan) => (
             <Card
               key={plan.id}
-              className={`relative overflow-visible p-8 pt-12 flex flex-col spotlight-card hover-card scale-in ${
-                plan.popular
+              className={`relative overflow-visible p-8 pt-12 flex flex-col spotlight-card hover-card scale-in ${plan.popular
                   ? "bg-primary text-primary-foreground border-primary md:scale-105 shadow-2xl"
                   : "bg-background border-border"
-              }`}
+                }`}
             >
               {plan.popular && (
                 <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-10">
@@ -93,11 +92,10 @@ export default function Pricing() {
 
               <div className="mb-8">
                 <h3
-                  className={`text-2xl font-bold mb-2 ${
-                    plan.popular
+                  className={`text-2xl font-bold mb-2 ${plan.popular
                       ? "text-primary-foreground"
                       : "text-foreground"
-                  }`}
+                    }`}
                 >
                   {plan.name}
                 </h3>
@@ -129,11 +127,10 @@ export default function Pricing() {
               </div>
 
               <Button
-                className={`w-full mb-8 ${
-                  plan.popular
+                className={`w-full mb-8 ${plan.popular
                     ? "bg-primary-foreground text-primary hover:bg-primary-foreground/90"
                     : "bg-primary text-primary-foreground hover:bg-primary/90"
-                }`}
+                  }`}
               >
                 {plan.cta}
               </Button>

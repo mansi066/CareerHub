@@ -78,7 +78,7 @@ export default function Features() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {features.map((feature, idx) => {
             const Icon = feature.icon
             const CardContent = (
@@ -90,13 +90,12 @@ export default function Features() {
                 <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
               </>
             )
-            
+
             return (
               <Card
                 key={feature.id}
-                className={`p-8 glassmorphic border-foreground/10 spotlight-card hover-card scale-in ${
-                  feature.link ? 'cursor-pointer hover:scale-105 transition-transform' : ''
-                }`}
+                className={`p-8 glassmorphic border-foreground/10 spotlight-card hover-card scale-in ${feature.link ? 'cursor-pointer hover:scale-105 transition-transform' : ''
+                  }`}
                 style={{ animationDelay: `${idx * 100}ms` }}
               >
                 {feature.link ? (

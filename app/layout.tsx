@@ -5,9 +5,10 @@ import { Analytics } from "@vercel/analytics/next"
 import Script from "next/script"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/components/ui/toaster";
 import { AuthSessionProvider } from "@/provider/auth-provider"
 import Footer from "@/components/footer"
+import { ScrollToTop } from "@/components/scroll-to-top"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -48,6 +49,7 @@ export default function RootLayout({
             {children}
           </AuthSessionProvider>
 
+          <ScrollToTop />
           <Toaster />
           <Analytics />
         </ThemeProvider>

@@ -25,7 +25,7 @@ interface Opportunity {
 
 const BrowsePage = () => {
   const [filter, setFilter] = useState<"all" | "job" | "internship" | "scholarship">("all");
-  const [locationFilter, setLocationFilter] = useState<"all" | "remote" | "onsite" | "relocation">("all");
+  const [locationFilter, setLocationFilter] = useState<"all" | "remote" | "onsite" | "relocation" | "hybrid">("all");
   const [showLocationDropdown, setShowLocationDropdown] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [allOpportunities, setAllOpportunities] = useState<Opportunity[]>([]);
@@ -94,9 +94,11 @@ const BrowsePage = () => {
       if (locationFilter === "remote") {
         matchesLocation = locationLower.includes("remote") || locationLower.includes("work from home") || locationLower.includes("wfh");
       } else if (locationFilter === "onsite") {
-        matchesLocation = !locationLower.includes("remote") && !locationLower.includes("work from home") && !locationLower.includes("wfh");
+        matchesLocation = !locationLower.includes("remote") && !locationLower.includes("work from home") && !locationLower.includes("wfh") && !locationLower.includes("hybrid");
       } else if (locationFilter === "relocation") {
         matchesLocation = locationLower.includes("relocation") || locationLower.includes("willing to relocate") || locationLower.includes("relocation assistance");
+      } else if (locationFilter === "hybrid") {
+        matchesLocation = locationLower.includes("hybrid") || (locationLower.includes("remote") && locationLower.includes("onsite"));
       }
     }
 
@@ -200,6 +202,7 @@ const BrowsePage = () => {
                       {locationFilter === "remote" && "Remote"}
                       {locationFilter === "onsite" && "On-Site"}
                       {locationFilter === "relocation" && "Relocation"}
+                      {locationFilter === "hybrid" && "Hybrid"}
                     </span>
                     <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -243,6 +246,15 @@ const BrowsePage = () => {
                       >
                         Relocation
                       </button>
+                      <button
+                        className={`block w-full text-left px-4 py-2 hover:bg-foreground/10 ${locationFilter === "hybrid" ? "bg-foreground/20" : ""}`}
+                        onClick={() => {
+                          setLocationFilter("hybrid");
+                          setShowLocationDropdown(false);
+                        }}
+                      >
+                        Hybrid
+                      </button>
                     </div>
                   )}
                 </div>
@@ -257,20 +269,6 @@ const BrowsePage = () => {
                 <Card key={opportunity.id} className="glassmorphic hover:scale-[1.02] transition-transform duration-300">
                   <CardHeader>
                     <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <CardTitle className="text-xl">{opportunity.title}</CardTitle>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <BookmarkButton
-                          opportunity={opportunity}
-                          type={opportunity.type}
-                          variant="heart"
-                          size="sm"
-                        />
-                        <Badge className={getTypeColor(opportunity.type)}>
-                          {opportunity.type.charAt(0).toUpperCase() + opportunity.type.slice(1)}
-                        </Badge>
-                      </div>
                       <div className="flex-1">
                         <CardTitle className="text-xl">{opportunity.title}</CardTitle>
                       </div>

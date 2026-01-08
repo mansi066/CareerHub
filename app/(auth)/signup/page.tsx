@@ -7,7 +7,8 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Eye, EyeOff } from "lucide-react"
 import { signIn } from "next-auth/react"
-import { signupAction } from "../action"
+import { signupAction } from "../action";
+import { toast } from "@/hooks/use-toast";
 
 // ✅ Existing Components
 import Header from "@/components/header"
@@ -94,7 +95,15 @@ export default function SignupPage() {
         setUserEmail(formData.email)
         setShowOtpForm(true)
         setResendCountdown(60)
-        setCanResend(false)
+        setCanResend(false);
+        // Show toast
+       toast({
+        title: "Account Created!",
+        description: "Complete your profile to get the best job matches!",
+        type: "foreground",
+      });
+      // Redirect to profile page instead of dashboard
+      router.push("/profile/edit");
       } else {
         setError(result.error || "Failed to create account")
       }
@@ -183,7 +192,7 @@ export default function SignupPage() {
       {/* Header */}
 
       {/* Page Container with gradient background */}
-      <div className="relative w-full min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 overflow-hidden">
+      <div className="relative w-full min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center bg-gradient-to-brown from-background via-background to-primary/5 overflow-hidden">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-pulse" />
@@ -195,17 +204,17 @@ export default function SignupPage() {
           {/* Card Wrapper with enhanced styling */}
           <div className="relative group">
             {/* Glow effect on hover */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/50 via-blue-500/50 to-purple-500/50 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt" />
+            <div className="absolute -inset-0.5 bg-gradient-to-red from-primary/50 via-blue-500/50 to-purple-500/50 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt" />
 
             <div className="relative glassmorphic p-8 rounded-2xl border border-foreground/10 backdrop-blur-xl bg-background/80 shadow-2xl">
               {/* Heading Section with improved styling */}
               <div className="mb-8 text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary to-blue-500 mb-4 shadow-lg">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-brown from-primary to-blue-500 mb-4 shadow-lg">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                   </svg>
                 </div>
-                <h1 className="text-3xl font-bold text-foreground mb-2 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
+                <h1 className="text-3xl font-bold text-foreground mb-2 bg-gradient-to-red from-foreground to-foreground/70 bg-clip-text">
                   {showOtpForm ? "Verify Your Email" : "Create Your Account"}
                 </h1>
                 <p className="text-muted-foreground">
@@ -245,7 +254,7 @@ export default function SignupPage() {
                     {/* Error Message */}
                     {error && (
                       <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-600 dark:text-red-400 text-sm flex items-start gap-3 animate-in slide-in-from-top-2">
-                        <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 flex-shrink-0.5 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                         </svg>
                         <span>{error}</span>
@@ -255,7 +264,7 @@ export default function SignupPage() {
                     {/* Success Message */}
                     {success && (
                       <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-xl text-green-600 dark:text-green-400 text-sm flex items-start gap-3 animate-in slide-in-from-top-2">
-                        <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 flex-shrink-0.5 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
                         <span>{success}</span>
@@ -266,7 +275,7 @@ export default function SignupPage() {
                     <Button
                       type="submit"
                       disabled={isLoading || otp.length !== 6}
-                      className="w-full bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-700 text-white font-semibold py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                      className="w-full bg-gradient-to-red from-primary to-blue-600 hover:from-primary/90 hover:to-blue-700 text-white font-semibold py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                     >
                       {isLoading ? (
                         <span className="flex items-center justify-center gap-2">
@@ -435,7 +444,7 @@ export default function SignupPage() {
                     {/* Error Message */}
                     {error && (
                       <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-600 dark:text-red-400 text-sm flex items-start gap-3 animate-in slide-in-from-top-2">
-                        <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 flex-shrink-0.5 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                         </svg>
                         <span>{error}</span>
@@ -445,7 +454,7 @@ export default function SignupPage() {
                     {/* Success Message */}
                     {success && (
                       <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-xl text-green-600 dark:text-green-400 text-sm flex items-start gap-3 animate-in slide-in-from-top-2">
-                        <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 flex-shrink-0.5 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
                         <span>{success}</span>
@@ -456,7 +465,7 @@ export default function SignupPage() {
                     <Button
                       type="submit"
                       disabled={isLoading}
-                      className="w-full bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-700 text-white font-semibold py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                      className="w-full bg-gradient-to-red from-primary to-blue-600 hover:from-primary/90 hover:to-blue-700 text-white font-semibold py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                     >
                       {isLoading ? (
                         <span className="flex items-center justify-center gap-2">
@@ -472,9 +481,9 @@ export default function SignupPage() {
                     </Button>
                   </form>
                   <div className="flex items-center gap-4 my-6">
-                    <div className="flex-1 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
+                    <div className="flex-1 h-px bg-gradient-to-red from-transparent via-foreground/20 to-transparent" />
                     <span className="text-xs text-muted-foreground font-medium">OR CONTINUE WITH</span>
-                    <div className="flex-1 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
+                    <div className="flex-1 h-px bg-gradient-to-red from-transparent via-foreground/20 to-transparent" />
                   </div>
                   <Button
                     type="button"
