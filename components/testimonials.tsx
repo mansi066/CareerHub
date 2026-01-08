@@ -2,8 +2,19 @@
 
 import { Card } from "@/components/ui/card"
 import { Star } from "lucide-react"
+import { useEffect, useState } from "react"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
 export default function Testimonials() {
+  const [userTestimonials, setUserTestimonials] = useState([])
+    useEffect(() => {
+    const saved = JSON.parse(
+      localStorage.getItem("testimonials") || "[]"
+    )
+    setUserTestimonials(saved)
+  }, [])
+
   const testimonials = [
     {
       id: 1,
@@ -34,6 +45,11 @@ export default function Testimonials() {
 
   return (
     <section id="testimonials" className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-background">
+       <div className="flex justify-center mb-10">
+        <Link href="/post-success">
+          <Button size="lg">Post Your Success Story</Button>
+        </Link>
+      </div>
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4 text-pretty blur-reveal">
@@ -45,7 +61,7 @@ export default function Testimonials() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial) => (
+         {[...userTestimonials, ...testimonials].map((testimonial) => (
             <Card key={testimonial.id} className="p-8 bg-card border-border spotlight-card hover-card scale-in">
               <div className="flex gap-1 mb-4">
                 {Array.from({ length: testimonial.rating }).map((_, i) => (
