@@ -1,0 +1,41 @@
+name: Issue Greeting
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Greet new issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueComment = `👋 **Thank you for opening this issue!**
+
+            We appreciate your contribution to **CareerHub**. Our team will review your issue shortly.
+
+            📝 **In the meantime, please ensure:**
+            - Your issue title is clear and descriptive
+            - You've provided enough context and details
+            - You've checked if a similar issue already exists
+            - You've followed our [Contributing Guidelines](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/CONTRIBUTING.md)
+
+            🔍 **What happens next?**
+            - A maintainer will review and label your issue
+            - You may be asked for additional information
+            - If approved, the issue will be assigned or marked as "help wanted"
+
+            💡 **Want to work on this yourself?** Feel free to submit a pull request!
+
+            Thanks for helping make CareerHub better! 🚀`;
+
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: issueComment
+            });
