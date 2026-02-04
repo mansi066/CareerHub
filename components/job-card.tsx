@@ -1,5 +1,6 @@
 "use client"
 
+import { useBookmarks } from "@/hooks/useBookmarks"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -29,6 +30,24 @@ interface JobCardProps {
 }
 
 export function JobCard({ job }: JobCardProps) {
+
+  const { addBookmark, removeBookmark, isBookmarked } = useBookmarks()
+
+  const bookmarked = isBookmarked(job._id)
+
+  const handleBookmarkToggle = () => {
+    if (bookmarked) {
+      removeBookmark(job._id)
+    } else {
+      addBookmark({
+        id: job._id,
+        title: job.title,
+        type: "job",
+        createdAt: new Date().toISOString(),
+      })
+    }
+  }
+
   const formatSalary = () => {
     if (!job.salary?.min && !job.salary?.max) return null
     
@@ -103,9 +122,19 @@ export function JobCard({ job }: JobCardProps) {
             )}
           </div>
           
-          <Button size="sm" className="ml-auto">
-            Apply Now
+          <div className="flex gap-2 ml-auto">
+          <Button
+           size="sm"
+           variant={bookmarked ? "secondary" : "outline"}
+           onClick={handleBookmarkToggle}
+           >
+          {bookmarked ? "Saved" : "Save"}
           </Button>
+
+         <Button size="sm">
+           Apply Now
+         </Button>
+        </div>
         </div>
       </CardContent>
     </Card>
