@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, Briefcase, Building2, Bookmark, GraduationCap, Award, CreditCard, Sparkles, X, FileText, FileUser, Mic } from "lucide-react";
+import { Menu, Briefcase, Building2, Bookmark, GraduationCap, Award, CreditCard, Sparkles, X, FileText, FileUser, Mic, User, Settings, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ThemeToggle } from "./theme-toggle";
@@ -29,6 +29,10 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const { data: session, status } = useSession();
+
+  const isAuthenticated = status === "authenticated";
+  const user = session?.user as any;
+  const dashboardLink = user?.role === "company" ? "/dashboard/company" : "/dashboard";
 
   // Handle scroll effect for the header
   useEffect(() => {
@@ -63,22 +67,52 @@ export default function Header() {
   };
 
   const renderCTA = (mobile = false) => {
-    const isAuthenticated = status === "authenticated";
-    const user = session?.user as any;
-    const dashboardLink = user?.role === "company" ? "/dashboard/company" : "/dashboard";
-
     return (
       <div>
         {isAuthenticated ? (
-          <Link href={dashboardLink} className={mobile ? "w-full" : ""}>
-            <Button className={cn(
-              "gap-2 font-semibold transition-all hover:scale-105 active:scale-95",
-              mobile ? "w-full h-12 text-base" : "h-9 px-4 shadow-md bg-primary hover:shadow-primary/20"
-            )}>
-              <Sparkles className="h-4 w-4" />
-              Dashboard
-            </Button>
-          </Link>
+          <div className={cn("flex items-center gap-2", mobile ? "flex-col w-full" : "")}>
+            <Link href={dashboardLink} className={mobile ? "w-full" : ""}>
+              <Button variant="ghost" className={cn(
+                "gap-2 font-semibold transition-all hover:scale-105 active:scale-95",
+                mobile ? "w-full h-12 text-base" : "h-9 px-4"
+              )}>
+                <Sparkles className="h-4 w-4" />
+                Dashboard
+              </Button>
+            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full">
+                  <User className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <div className="px-2 py-1.5 text-sm font-medium text-muted-foreground">
+                  {user?.name || user?.email}
+                </div>
+                <Separator className="my-1" />
+                <DropdownMenuItem asChild>
+                  <Link href="/profile" className="cursor-pointer">
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/settings" className="cursor-pointer">
+                    <Settings className="mr-2 h-4 w-4" />
+                    Settings
+                  </Link>
+                </DropdownMenuItem>
+                <Separator className="my-1" />
+                <DropdownMenuItem asChild>
+                  <Link href="/api/auth/signout" className="cursor-pointer">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign Out
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         ) : (
           <div className={cn("flex items-center gap-5", mobile ? "flex-col w-full" : "")}>
             <Link href="/login" className={mobile ? "w-full" : ""}>
@@ -251,7 +285,38 @@ export default function Header() {
                   })}
                 </div>
                 <Separator />
-                {renderCTA(true)}
+                {isAuthenticated ? (
+                  <div className="space-y-2">
+                    <Link href={dashboardLink} onClick={() => setIsOpen(false)}>
+                      <Button className="w-full h-12 text-base gap-2">
+                        <Sparkles className="h-4 w-4" />
+                        Dashboard
+                      </Button>
+                    </Link>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Link href="/profile" onClick={() => setIsOpen(false)}>
+                        <Button variant="outline" className="w-full h-12 text-base gap-2">
+                          <User className="h-4 w-4" />
+                          Profile
+                        </Button>
+                      </Link>
+                      <Link href="/settings" onClick={() => setIsOpen(false)}>
+                        <Button variant="outline" className="w-full h-12 text-base gap-2">
+                          <Settings className="h-4 w-4" />
+                          Settings
+                        </Button>
+                      </Link>
+                    </div>
+                    <Link href="/api/auth/signout" onClick={() => setIsOpen(false)}>
+                      <Button variant="outline" className="w-full h-12 text-base gap-2">
+                        <LogOut className="h-4 w-4" />
+                        Sign Out
+                      </Button>
+                    </Link>
+                  </div>
+                ) : (
+                  renderCTA(true)
+                )}
                 <div className="mt-auto space-y-6">
                   <div className="bg-muted/40 p-4 rounded-2xl space-y-4 border border-border/50">
                     <div className="flex items-center justify-between">
