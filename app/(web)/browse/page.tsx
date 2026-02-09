@@ -1,5 +1,6 @@
 "use client";
 
+import { useBookmarks } from "@/hooks/useBookmarks";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -76,7 +77,7 @@ const BrowsePage = () => {
     }
 
     // Only use company posted jobs (no mock opportunities)
-    setAllOpportunities(companyPostedJobs);
+    setAllOpportunities(opportunities.length ? opportunities : companyPostedJobs);
     setIsLoading(false);
   }, []);
 
