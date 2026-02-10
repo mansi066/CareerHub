@@ -1,59 +1,46 @@
-import { z } from "zod"
+import { z } from "zod";
 
-// Password change schema
-export const passwordChangeSchema = z.object({
-    currentPassword: z.string().min(1, "Current password is required"),
-    newPassword: z
-        .string()
-        .min(8, "Password must be at least 8 characters")
-        .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-        .regex(/[0-9]/, "Password must contain at least one number")
-        .regex(/[@$!%*?&]/, "Password must contain at least one special character"),
-    confirmNewPassword: z.string(),
-}).refine((data) => data.newPassword === data.confirmNewPassword, {
-    message: "Passwords do not match",
-    path: ["confirmNewPassword"],
-})
-
-export type PasswordChangeFormData = z.infer<typeof passwordChangeSchema>
-
-// Profile update schema (extending the existing profile edit)
 export const profileUpdateSchema = z.object({
-    fullName: z.string().min(2, "Name must be at least 2 characters").max(100, "Name is too long"),
-    email: z.string().email("Invalid email address"),
-    skills: z.string().optional(),
-    interests: z.string().optional(),
-})
+  name: z.string().min(2, "Name must be at least 2 characters").max(50, "Name must be less than 50 characters"),
+  email: z.string().email("Invalid email address"),
+  bio: z.string().max(500, "Bio must be less than 500 characters").optional(),
+  location: z.string().max(100, "Location must be less than 100 characters").optional(),
+  website: z.string().url("Invalid URL").optional().or(z.literal("")),
+  skills: z.string().max(200, "Skills must be less than 200 characters").optional(),
+});
 
-export type ProfileUpdateFormData = z.infer<typeof profileUpdateSchema>
+export const passwordChangeSchema = z.object({
+  currentPassword: z.string().min(1, "Current password is required"),
+  newPassword: z.string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one lowercase letter, one uppercase letter, and one number"),
+  confirmPassword: z.string(),
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
 
-// Notification settings schema
 export const notificationSettingsSchema = z.object({
-    emailNotifications: z.boolean(),
-    jobAlerts: z.boolean(),
-    applicationUpdates: z.boolean(),
-    newsletter: z.boolean(),
-    marketingEmails: z.boolean(),
-})
+  emailNotifications: z.boolean().default(true),
+  jobAlerts: z.boolean().default(true),
+  applicationUpdates: z.boolean().default(true),
+  marketingEmails: z.boolean().default(false),
+  weeklyDigest: z.boolean().default(true),
+  pushNotifications: z.boolean().default(true),
+});
 
-export type NotificationSettingsFormData = z.infer<typeof notificationSettingsSchema>
-
-// Privacy settings schema
 export const privacySettingsSchema = z.object({
-    profileVisibility: z.enum(['public', 'private', 'connections']),
-    showEmail: z.boolean(),
-    showResume: z.boolean(),
-    dataSharing: z.boolean(),
-})
+  profileVisibility: z.enum(["public", "private", "connections"]).default("public"),
+  showEmail: z.boolean().default(false),
+  showResume: z.boolean().default(true),
+  allowMessaging: z.boolean().default(true),
+  dataSharing: z.boolean().default(false),
+  analyticsTracking: z.boolean().default(true),
+});
 
-export type PrivacySettingsFormData = z.infer<typeof privacySettingsSchema>
-
-// Account deletion schema
 export const accountDeletionSchema = z.object({
-    confirmation: z.string().refine((val) => val === "" || val === "DELETE", {
-        message: "Please type 'DELETE' to confirm account deletion"
-    }),
-    reason: z.string().optional(),
-})
-
-export type AccountDeletionFormData = z.infer<typeof accountDeletionSchema>
+  reason: z.string().max(500, "Reason must be less than 500 characters").optional(),
+  confirmation: z.string().refine((val) => val === "DELETE", {
+    message: "Please type 'DELETE' to confirm",
+  }),
+});
