@@ -25,7 +25,7 @@ import {
 import Link from "next/link";
 import Footer from "@/components/footer";
 import ReviewCard from "@/components/review-card";
-import ReviewForm from "@/components/review-form";
+import { CompanyReviewForm } from "@/components/company-review-form";
 import {
   CompanyProfile,
   CompanyReview,
@@ -33,6 +33,12 @@ import {
   CompanyDataManager
 } from "@/lib/company-data";
 import { useToast } from "@/hooks/use-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export default function CompanyProfilePage() {
   const params = useParams();
@@ -50,31 +56,42 @@ export default function CompanyProfilePage() {
     loadCompanyData();
   }, [companyId]);
 
-  const loadCompanyData = () => {
+  const loadCompanyData = async () => {
     setIsLoading(true);
 
-    // Initialize sample data
-    CompanyDataManager.initializeSampleData();
+    try {
+      // Initialize sample data
+      CompanyDataManager.initializeSampleData();
 
-    // Load company profile
-    const companyData = CompanyDataManager.getCompanyById(companyId);
-    setCompany(companyData);
+      // Load company profile
+      const companyData = CompanyDataManager.getCompanyById(companyId);
+      setCompany(companyData);
 
-    if (companyData) {
-      // Load reviews and stats
-      const companyReviews = CompanyDataManager.getCompanyReviews(companyId);
-      const stats = CompanyDataManager.getReviewStats(companyId);
+      if (companyData) {
+        // Load reviews and stats asynchronously
+        const [companyReviews, stats] = await Promise.all([
+          CompanyDataManager.getCompanyReviews(companyId),
+          CompanyDataManager.getReviewStats(companyId)
+        ]);
 
-      setReviews(companyReviews);
-      setReviewStats(stats);
+        setReviews(companyReviews);
+        setReviewStats(stats);
+      }
+    } catch (error) {
+      console.error('Error loading company data:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load company data. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
-  const handleReviewSubmitted = () => {
+  const handleReviewSubmitted = async () => {
     setShowReviewForm(false);
-    loadCompanyData(); // Reload data to show new review
+    await loadCompanyData(); // Reload data to show new review
     toast({
       title: "Review Submitted",
       description: "Thank you for your feedback!",
@@ -229,10 +246,10 @@ export default function CompanyProfilePage() {
         {/* Review Form */}
         {showReviewForm && (
           <div className="mb-8">
-            <ReviewForm
+            <CompanyReviewForm
               companyId={company.id}
               companyName={company.companyName}
-              onReviewSubmitted={handleReviewSubmitted}
+              onSuccess={handleReviewSubmitted}
               onCancel={() => setShowReviewForm(false)}
             />
           </div>
@@ -493,6 +510,20 @@ export default function CompanyProfilePage() {
           </TabsContent>
         </Tabs>
       </main>
+
+      {/* Review Form Modal */}
+      <Dialog open={showReviewForm} onOpenChange={setShowReviewForm}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Write a Review for {company?.companyName}</DialogTitle>
+          </DialogHeader>
+          <CompanyReviewForm
+            companyId={companyId}
+            companyName={company?.companyName || ''}
+            onSuccess={handleReviewSubmitted}
+          />
+        </DialogContent>
+      </Dialog>
 
     </div>
   );

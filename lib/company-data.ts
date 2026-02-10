@@ -1,4 +1,6 @@
 // Company profiles and reviews data management
+import { Review } from '@/models/Review.Model';
+
 export interface CompanyProfile {
   id: string;
   companyName: string;
@@ -48,7 +50,6 @@ export interface ReviewStats {
 // Company data management functions
 export class CompanyDataManager {
   private static COMPANIES_KEY = 'companyProfiles';
-  private static REVIEWS_KEY = 'companyReviews';
 
   // Get all company profiles
   static getCompanies(): CompanyProfile[] {
@@ -78,50 +79,61 @@ export class CompanyDataManager {
     localStorage.setItem(this.COMPANIES_KEY, JSON.stringify(companies));
   }
 
-  // Get all reviews
-  static getReviews(): CompanyReview[] {
-    if (typeof window === 'undefined') return [];
-    const stored = localStorage.getItem(this.REVIEWS_KEY);
-    return stored ? JSON.parse(stored) : [];
+  // Fetch reviews for a specific company from API
+  static async getCompanyReviews(companyId: string): Promise<CompanyReview[]> {
+    try {
+      const response = await fetch(`/api/reviews?companyId=${companyId}`);
+      if (!response.ok) {
+        console.error('Failed to fetch reviews:', response.statusText);
+        return [];
+      }
+      const data = await response.json();
+      return data.reviews || [];
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+      return [];
+    }
   }
 
-  // Get reviews for a specific company
-  static getCompanyReviews(companyId: string): CompanyReview[] {
-    const reviews = this.getReviews();
-    return reviews.filter(review => review.companyId === companyId);
-  }
+  // Submit a new review via API
+  static async submitReview(reviewData: {
+    companyId: string;
+    rating: number;
+    title: string;
+    content: string;
+    pros: string[];
+    cons: string[];
+    workEnvironment: number;
+    compensation: number;
+    careerGrowth: number;
+    position?: string;
+    workType?: 'full-time' | 'part-time' | 'internship' | 'contract';
+  }): Promise<{ success: boolean; error?: string }> {
+    try {
+      const response = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reviewData),
+      });
 
-  // Save review
-  static saveReview(review: CompanyReview): void {
-    if (typeof window === 'undefined') return;
-    const reviews = this.getReviews();
-    reviews.push(review);
-    localStorage.setItem(this.REVIEWS_KEY, JSON.stringify(reviews));
-    
-    // Update company rating
-    this.updateCompanyRating(review.companyId);
-  }
+      const data = await response.json();
 
-  // Update company rating based on reviews
-  private static updateCompanyRating(companyId: string): void {
-    const companies = this.getCompanies();
-    const companyIndex = companies.findIndex(c => c.id === companyId);
-    
-    if (companyIndex >= 0) {
-      const reviews = this.getCompanyReviews(companyId);
-      const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-      const averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
-      
-      companies[companyIndex].averageRating = Math.round(averageRating * 10) / 10;
-      companies[companyIndex].totalReviews = reviews.length;
-      
-      localStorage.setItem(this.COMPANIES_KEY, JSON.stringify(companies));
+      if (!response.ok) {
+        return { success: false, error: data.error || 'Failed to submit review' };
+      }
+
+      return { success: true };
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      return { success: false, error: 'Network error occurred' };
     }
   }
 
   // Get review statistics for a company
-  static getReviewStats(companyId: string): ReviewStats {
-    const reviews = this.getCompanyReviews(companyId);
+  static async getReviewStats(companyId: string): Promise<ReviewStats> {
+    const reviews = await this.getCompanyReviews(companyId);
     
     if (reviews.length === 0) {
       return {
@@ -139,7 +151,7 @@ export class CompanyDataManager {
     const totalCompensation = reviews.reduce((sum, review) => sum + review.compensation, 0);
     const totalCareerGrowth = reviews.reduce((sum, review) => sum + review.careerGrowth, 0);
 
-    const ratingDistribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    const ratingDistribution: { [key: number]: number } = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
     reviews.forEach(review => {
       ratingDistribution[review.rating]++;
     });

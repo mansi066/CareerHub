@@ -121,7 +121,24 @@ export default function ReviewForm({
         workType: formData.workType
       };
 
-      CompanyDataManager.saveReview(review);
+      // Use the new API method instead of localStorage
+      const result = await CompanyDataManager.submitReview({
+        companyId,
+        rating: formData.rating,
+        title: formData.title,
+        content: formData.content,
+        pros: formData.pros.filter(pro => pro.trim() !== ''),
+        cons: formData.cons.filter(con => con.trim() !== ''),
+        workEnvironment: formData.workEnvironment,
+        compensation: formData.compensation,
+        careerGrowth: formData.careerGrowth,
+        position: formData.position,
+        workType: formData.workType,
+      });
+
+      if (!result.success) {
+        throw new Error(result.error);
+      }
 
       toast({
         title: "Review Submitted",
