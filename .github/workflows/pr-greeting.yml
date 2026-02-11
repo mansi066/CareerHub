@@ -1,0 +1,51 @@
+name: PR Greeting
+
+on:
+  pull_request_target:
+    types: [opened]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Greet new PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prComment = `🎉 **Thank you for your pull request!**
+
+            We're excited to review your contribution to **CareerHub**!
+
+            ✅ **Checklist for your PR:**
+            - [ ] Code follows the project's style guidelines
+            - [ ] Self-review of your own code completed
+            - [ ] Comments added for complex code sections
+            - [ ] Documentation updated (if applicable)
+            - [ ] No new warnings generated
+            - [ ] Tests added/updated (if applicable)
+            - [ ] All tests pass locally
+            - [ ] Linked to related issue (if applicable)
+
+            🔄 **What happens next?**
+            - Our CI/CD pipeline will run automated checks
+            - A maintainer will review your changes
+            - You may receive feedback or requests for changes
+            - Once approved, your PR will be merged!
+
+            📚 **Resources:**
+            - [Contributing Guidelines](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/CONTRIBUTING.md)
+            - [Code of Conduct](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/CODE_OF_CONDUCT.md)
+
+            Thank you for making CareerHub better! 💪
+
+            ---
+            *Please be patient while we review your contribution. We'll get back to you as soon as possible!* ⏰`;
+
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: prComment
+            });
