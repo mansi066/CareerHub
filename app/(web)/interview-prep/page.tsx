@@ -2,10 +2,10 @@ import { Mic, Code, User, Sparkles } from "lucide-react"
 
 export default function InterviewPrepPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background">
 
       {/* HERO */}
-      <section className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
+      <section className="bg-gradient-to-r from-orange-500 to-red-500 text-white pt-16">
         <div className="max-w-6xl mx-auto px-6 py-20 text-center">
           <Sparkles className="w-10 h-10 mx-auto mb-4" />
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
@@ -18,7 +18,7 @@ export default function InterviewPrepPage() {
       </section>
 
       {/* PREP SECTIONS */}
-      <section className="max-w-6xl mx-auto px-6 py-20">
+      <section className="max-w-6xl mx-auto px-6 py-20 pt-16 pb-32">
         <div className="grid gap-6 md:grid-cols-3">
           <PrepCard
             icon={<User />}
@@ -37,7 +37,6 @@ export default function InterviewPrepPage() {
           />
         </div>
       </section>
-
     </div>
   )
 }

@@ -2,10 +2,10 @@ import { FileText, CheckCircle, Sparkles } from "lucide-react"
 
 export default function ResumeTipsPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background">
 
       {/* HERO */}
-      <section className="bg-gradient-to-br from-emerald-500 to-teal-600 text-white">
+      <section className="bg-gradient-to-br from-emerald-500 to-teal-600 text-white pt-16">
         <div className="max-w-6xl mx-auto px-6 py-20 text-center">
           <Sparkles className="w-10 h-10 mx-auto mb-4" />
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
@@ -18,7 +18,7 @@ export default function ResumeTipsPage() {
       </section>
 
       {/* TIPS */}
-      <section className="max-w-5xl mx-auto px-6 py-20">
+      <section className="max-w-5xl mx-auto px-6 py-20 pt-16 pb-32">
         <div className="grid gap-6 md:grid-cols-2">
           <TipCard text="Write a strong, concise professional summary" />
           <TipCard text="Quantify achievements with numbers" />
@@ -28,7 +28,6 @@ export default function ResumeTipsPage() {
           <TipCard text="Highlight skills relevant to the job" />
         </div>
       </section>
-
     </div>
   )
 }

@@ -2,10 +2,10 @@ import { BookOpen, Calendar, ArrowRight, Sparkles } from "lucide-react"
 
 export default function CareerBlogPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background">
 
       {/* HERO */}
-      <section className="bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white">
+      <section className="bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white pt-16">
         <div className="max-w-6xl mx-auto px-6 py-20 text-center">
           <Sparkles className="w-10 h-10 mx-auto mb-4" />
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
@@ -18,7 +18,7 @@ export default function CareerBlogPage() {
       </section>
 
       {/* BLOG LIST */}
-      <section className="max-w-6xl mx-auto px-6 py-20">
+      <section className="max-w-6xl mx-auto px-6 py-20 pt-16 pb-32">
         <h2 className="text-2xl font-bold mb-8">Featured Articles</h2>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -36,7 +36,6 @@ export default function CareerBlogPage() {
           />
         </div>
       </section>
-
     </div>
   )
 }
