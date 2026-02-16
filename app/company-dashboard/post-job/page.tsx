@@ -14,19 +14,19 @@ import { JobPostingFormData } from "@/lib/validations/auth"
 
 export default function PostJobPage() {
   const router = useRouter()
-  
+
   const [formData, setFormData] = useState<JobPostingFormData>({
     title: "",
     description: "",
     requirements: [],
     location: "",
-    type: "full-time",
+    type: "Full-time",
     remote: false,
     salary: { min: undefined, max: undefined, currency: "USD" },
     skills: [],
-    experience: "",
+    experience: "Entry Level",
   })
-  
+
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
@@ -152,10 +152,10 @@ export default function PostJobPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="full-time">Full-time</SelectItem>
-                    <SelectItem value="part-time">Part-time</SelectItem>
-                    <SelectItem value="contract">Contract</SelectItem>
-                    <SelectItem value="internship">Internship</SelectItem>
+                    <SelectItem value="Full-time">Full-time</SelectItem>
+                    <SelectItem value="Part-time">Part-time</SelectItem>
+                    <SelectItem value="Contract">Contract</SelectItem>
+                    <SelectItem value="Internship">Internship</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -187,7 +187,7 @@ export default function PostJobPage() {
                 <Plus className="w-4 h-4" />
               </Button>
             </div>
-            
+
             <div className="flex flex-wrap gap-2">
               {formData.requirements.map((req, index) => (
                 <Badge key={index} variant="secondary" className="flex items-center gap-1">
@@ -214,10 +214,10 @@ export default function PostJobPage() {
                   <SelectValue placeholder="Select experience level" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="entry">Entry Level (0-2 years)</SelectItem>
-                  <SelectItem value="mid">Mid Level (2-5 years)</SelectItem>
-                  <SelectItem value="senior">Senior Level (5+ years)</SelectItem>
-                  <SelectItem value="lead">Lead/Principal (8+ years)</SelectItem>
+                  <SelectItem value="Entry Level">Entry Level (0-2 years)</SelectItem>
+                  <SelectItem value="Mid Level">Mid Level (2-5 years)</SelectItem>
+                  <SelectItem value="Senior Level">Senior Level (5+ years)</SelectItem>
+                  <SelectItem value="Lead / Manager">Lead/Principal (8+ years)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -235,7 +235,7 @@ export default function PostJobPage() {
                   <Plus className="w-4 h-4" />
                 </Button>
               </div>
-              
+
               <div className="flex flex-wrap gap-2">
                 {formData.skills.map((skill, index) => (
                   <Badge key={index} variant="secondary" className="flex items-center gap-1">
@@ -269,7 +269,7 @@ export default function PostJobPage() {
                   placeholder="50000"
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium">Maximum Salary</label>
                 <Input
@@ -282,11 +282,11 @@ export default function PostJobPage() {
                   placeholder="80000"
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium">Currency</label>
-                <Select 
-                  value={formData.salary?.currency || "USD"} 
+                <Select
+                  value={formData.salary?.currency || "USD"}
                   onValueChange={(value) => handleChange("salary", {
                     ...formData.salary,
                     currency: value
@@ -327,7 +327,7 @@ export default function PostJobPage() {
           >
             {isLoading ? "Posting Job..." : "Post Job"}
           </Button>
-          
+
           <Button
             type="button"
             variant="outline"

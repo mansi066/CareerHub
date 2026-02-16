@@ -1,4 +1,5 @@
 'use client'
+import { Fragment } from "react"
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -15,6 +16,7 @@ import {
 } from "@/components/ui/sidebar"
 import { AppSidebar } from "../_components/company/company-app-sidebar"
 import { usePathname } from "next/navigation"
+import { SideBarLogo } from "../_components/sidebar-logo"
 
 export default function Page({ children }: { children: React.ReactNode }) {
     const pathName = usePathname();
@@ -22,15 +24,19 @@ export default function Page({ children }: { children: React.ReactNode }) {
         <SidebarProvider>
             <AppSidebar />
             <SidebarInset>
-                <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-                    <div className="flex items-center gap-2 px-4">
-                        <SidebarTrigger className="-ml-1" />
+                <header className="flex h-16 shrink-0 items-center gap-2 overflow-hidden transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+                    <div className="flex min-w-0 flex-1 items-center gap-2 px-4 whitespace-nowrap">
+                        <div className="flex items-center gap-2">
+                            <SidebarTrigger className="-ml-1 lg:hidden" />
+                            <SideBarLogo />
+                        </div>
+
                         <Separator
                             orientation="vertical"
                             className="mr-2 data-[orientation=vertical]:h-4"
                         />
-                        <Breadcrumb>
-                            <BreadcrumbList>
+                        <Breadcrumb className="min-w-0">
+                            <BreadcrumbList className="flex flex-nowrap items-center gap-2 overflow-hidden">
                                 <BreadcrumbItem className="hidden md:block">
                                     <BreadcrumbLink href="/dashboard/company">
                                         Company Dashboard
@@ -49,16 +55,16 @@ export default function Page({ children }: { children: React.ReactNode }) {
                                         const label = format(seg)
                                         const isLast = i === trail.length - 1
                                         return (
-                                            <>
-                                                <BreadcrumbSeparator key={`sep-${i}`} className="hidden md:block" />
-                                                <BreadcrumbItem key={`item-${href}`}>
+                                            <Fragment key={href}>
+                                                <BreadcrumbSeparator className="hidden md:block" />
+                                                <BreadcrumbItem>
                                                     {isLast ? (
                                                         <BreadcrumbPage>{label}</BreadcrumbPage>
                                                     ) : (
                                                         <BreadcrumbLink href={href}>{label}</BreadcrumbLink>
                                                     )}
                                                 </BreadcrumbItem>
-                                            </>
+                                            </Fragment>
                                         )
                                     })
                                     return items

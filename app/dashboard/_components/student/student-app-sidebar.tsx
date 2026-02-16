@@ -18,10 +18,10 @@ import {
     SidebarFooter,
     SidebarHeader,
     SidebarRail,
+    SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { SideBarLogo } from "../sidebar-logo"
 import { NavMain } from "../nav-main"
-import { NavProjects } from "../nav-projects"
 import { NavUser } from "../nav-user"
 import { useSession } from "next-auth/react"
 
@@ -30,7 +30,11 @@ const navMain = [
         title: "Dashboard",
         url: "/dashboard",
         icon: LayoutDashboard,
-        isActive: true,
+    },
+    {
+        title: "My Applications",
+        url: "/dashboard/applications",
+        icon: Trophy,
     },
     {
         title: "Browse Jobs",
@@ -48,39 +52,22 @@ const navMain = [
         icon: GraduationCap,
     },
     {
-        title: "Leaderboard",
-        url: "/dashboard/leaderboard",
-        icon: Trophy,
+        title: "CV Analyzer",
+        url: "/dashboard/cv",
+        icon: Newspaper,
     },
     {
         title: "Profile",
         url: "/dashboard/profile",
         icon: User,
-        items: [
-            { title: "Overview", url: "/dashboard/profile" },
-            { title: "Edit Profile", url: "/dashboard/profile/edit" },
-            { title: "Settings", url: "/dashboard/settings" },
-        ],
+    },
+    {
+        title: "Settings",
+        url: "/dashboard/settings",
+        icon: Settings,
     },
 ]
 
-const quickLinks = [
-    {
-        name: "Analyse CV",
-        url: "/dashboard/cv",
-        icon: Newspaper,
-    },
-    {
-        name: "Applications",
-        url: "/dashboard/applications",
-        icon: Briefcase,
-    },
-    {
-        name: "Skill Growth",
-        url: "/assessments",
-        icon: GraduationCap,
-    },
-]
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const session = useSession();
@@ -88,11 +75,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
-                <SideBarLogo />
+                <SidebarTrigger className="-ml-1" />
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={navMain} />
-                <NavProjects projects={quickLinks} />
             </SidebarContent>
             <SidebarFooter>
                 <NavUser status={session?.status} user={session?.data?.user} />

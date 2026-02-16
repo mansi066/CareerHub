@@ -8,6 +8,8 @@ declare module 'next-auth' {
             isVerified?: boolean;
             image: string;
             username?: string;
+            isVarified?: boolean;
+            username?: string;
         } & DefaultSession['user'];
     }
 

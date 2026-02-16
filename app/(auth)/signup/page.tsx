@@ -7,7 +7,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Eye, EyeOff, ShieldCheck } from "lucide-react"
 import { signIn } from "next-auth/react"
-import { signupAction } from "../action";
+import { signupAction } from "../../../services/auth.services";
 import { toast } from "@/hooks/use-toast";
 
 
@@ -88,7 +88,7 @@ export default function SignupPage() {
       try {
         // Note: getSession needs to be imported or handled via next-auth
         // Keeping logic as per your original provided code
-        const session = await (window as any).getSession?.() 
+        const session = await (window as any).getSession?.()
         const userRole = (session?.user as any)?.role
 
         if (!userRole) {
@@ -457,9 +457,9 @@ export default function SignupPage() {
                               <ShieldCheck className="w-3 h-3" /> Strength:
                             </span>
                             <span className={
-                              passwordScore <= 1 ? "text-red-500" : 
-                              passwordScore === 2 ? "text-orange-500" :
-                              passwordScore === 3 ? "text-yellow-500" : "text-green-500"
+                              passwordScore <= 1 ? "text-red-500" :
+                                passwordScore === 2 ? "text-orange-500" :
+                                  passwordScore === 3 ? "text-yellow-500" : "text-green-500"
                             }>
                               {passwordFeedback}
                             </span>
@@ -468,11 +468,10 @@ export default function SignupPage() {
                             {[1, 2, 3, 4].map((step) => (
                               <div
                                 key={step}
-                                className={`h-full flex-1 rounded-full transition-all duration-500 ${
-                                  passwordScore >= step 
-                                    ? (passwordScore <= 2 ? "bg-red-500" : passwordScore === 3 ? "bg-yellow-500" : "bg-green-500") 
-                                    : "bg-foreground/10"
-                                }`}
+                                className={`h-full flex-1 rounded-full transition-all duration-500 ${passwordScore >= step
+                                  ? (passwordScore <= 2 ? "bg-red-500" : passwordScore === 3 ? "bg-yellow-500" : "bg-green-500")
+                                  : "bg-foreground/10"
+                                  }`}
                               />
                             ))}
                           </div>
